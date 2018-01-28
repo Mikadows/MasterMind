@@ -24,8 +24,9 @@ void color(int t,int f);
 void viderTamponEntree();
 void start();
 int nb_rand(int entrer);
-int verifCodeSaisieApp(code c);
+int verifCodeSaisieApp(code c, int entrer);
 int verifNbMancheApp(int nbManche);
+code convertCode(code c);
 
 #ifdef __cplusplus
 }

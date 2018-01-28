@@ -12,6 +12,6 @@ void ajouterCodeSecretData(code c){
     codeSecret = c;
 }
 
-void ajouterNombreManche(int nbManche){
+void ajouterNombreMancheData(int nbManche){
     nombreDeManche = nbManche;
 }

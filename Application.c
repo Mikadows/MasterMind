@@ -60,7 +60,7 @@ return(nb_aleatoire);
  * @param c <- code secret de type code
  * @return 1 si pas d'erreur, -2 si mauvaise couleur, -1 si couleur redondante.
  */
-int verifCodeSaisieApp(code c){
+int verifCodeSaisieApp(code c, int entrer){
     int i=0, ret=1, y=0;
 
     for(i=0; i<4; i++){             //Test si les couleurs saisies sont bonnes 
@@ -94,14 +94,15 @@ int verifCodeSaisieApp(code c){
                 break;
         }
     }
-    if(ret != -2){      //Si les couleurs saisies sont bonnes on vérifie si elles ne sont pas redondantes.
+
+    if((ret != -2) && (entrer != 0)){      //Si les couleurs saisies sont bonnes on vérifie si elles ne sont pas redondantes.
         for(y = 0; y < 4; y++){
             for(i = y + 1; i < 4; i++){
                 //printf("\n y : %d - i : %d \n", y, i);
                 if(c.codeCouleur[y] == c.codeCouleur[i]){
                     ret = -1;
-                }     
-            }       
+                }
+            }
         }
         /*for(i=1; i<4; i++){       //ancien test de redondance.
             if(c.codeCouleur[0] == c.codeCouleur[i]){
@@ -128,8 +129,42 @@ int verifNbMancheApp(int nbManche){
     
     if((nbManche == 1) || (nbManche == 3) || (nbManche == 5)){
         ret = 1;
-        ajouterNombreManche(nbManche);
+        ajouterNombreMancheData(nbManche);
     }
     
     return(ret);
+}
+
+code convertCode(code c){
+    int i=0;
+    
+    for(i=0; i<4; i++){             //Test si les couleurs saisies sont bonnes 
+        switch(c.codeCouleur[i]){   //Et les fais correspondres.
+            case 1:
+                c.codeCouleur[i] = ROUGE;
+                break;
+            case 2:
+                c.codeCouleur[i] = JAUNEF;
+                break;   
+            case 3:
+                c.codeCouleur[i] = VERTF;
+                break;
+            case 4:
+                c.codeCouleur[i] = TURQ;
+                break;                
+            case 5:
+                c.codeCouleur[i] = MARRON;
+                break;
+            case 6:
+                c.codeCouleur[i] = BLANC;
+                break;
+            case 7:
+                c.codeCouleur[i] = POURP;
+                break;
+            case 8:
+                c.codeCouleur[i] = ROSEF;
+                break;
+        }
+    }
+    return(c);
 }

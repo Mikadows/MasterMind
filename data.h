@@ -21,6 +21,7 @@ extern "C" {
 #include "code.h"
     
 void ajouterCodeSecretData(code c);
+void ajouterNombreMancheData(int nbManche);
 
 
 #ifdef __cplusplus

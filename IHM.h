@@ -26,10 +26,13 @@ void mainAffichaheIHM();
 void affArretIHM();
 void affMainTitleIHM(int nbAff, int nbColor);
 void playVsFriendIHM();
-void colorDispoIHM(int nbColor);
-code defCodeIHM(int nbAff, int nbColor);
+void colorDispoIHM(int nbColor, int entrer);
+code defCodeIHM(int nbAff, int nbColor, int entrer);
 int nbManchesIHM(int nbAff, int nbColor);
-
+void plateauDeJeuxIHM(int nbColor);
+void gameIHM();
+void affichTentativeIHM(code c, int y);
+    
 #ifdef __cplusplus
 }
 #endif
