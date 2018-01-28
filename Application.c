@@ -29,7 +29,9 @@ void viderTamponEntree(){
         //puts("caractère supprimé");
     }
 }
-
+/**
+ * Lance le programme
+ */
 void start(){
     mainAffichaheIHM();
 }
@@ -123,7 +125,11 @@ int verifCodeSaisieApp(code c, int entrer){
     }
     return(ret);
 }
-
+/**
+ * Vérifie le nombre de manches
+ * @param nbManche      <- Nombre manches a vérifier
+ * @return retourne 1 si la valeur est bonne
+ */
 int verifNbMancheApp(int nbManche){
     int ret = 0;
     
@@ -134,7 +140,11 @@ int verifNbMancheApp(int nbManche){
     
     return(ret);
 }
-
+/**
+ * Convertit un code saisie
+ * @param c <- prend un code
+ * @return retourne le code convertit pour les couleurs console
+ */
 code convertCode(code c){
     int i=0;
     
@@ -167,4 +177,17 @@ code convertCode(code c){
         }
     }
     return(c);
+}
+/**
+ * Verifie si le nombre de pions est conforme.
+ * @param nb    <-  Prend le nombre de pions à vérifié.
+ * @return      <-  Retourne 1 si ok.
+ */
+int checkCodeNbPionsApp(int nb){
+    int ret =0;
+    
+    if((nb>-1) && (nb<5)){
+        ret=1;
+    }
+    return(ret);
 }

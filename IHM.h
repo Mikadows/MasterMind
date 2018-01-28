@@ -32,6 +32,8 @@ int nbManchesIHM(int nbAff, int nbColor);
 void plateauDeJeuxIHM(int nbColor);
 void gameIHM();
 void affichTentativeIHM(code c, int y);
+int checkCodeIHM(int y);
+void clearBottomClearIHM();
     
 #ifdef __cplusplus
 }

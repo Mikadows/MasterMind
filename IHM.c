@@ -312,9 +312,9 @@ void playVsFriendIHM(int nbAff, int nbColor){
     system("mode con lines=50 cols=80");
     colorDispoIHM(nbColor, 2); 
     plateauDeJeuxIHM(nbColor);
-    
+    //Lance la partie
+    //TODO
     gameIHM();
-    
     
     
     system("pause");
@@ -443,11 +443,7 @@ code defCodeIHM(int nbAff, int nbColor, int entrer){          //int defCodeIHM()
         case 2:
             for(i=0; i<4; i++){
                 color(JAUNEF, NOIR);
-                gotoxy(1,37);
-                printf("                                                                \n"
-                       "                                                                \n"
-                       "                                                                \n");
-                gotoxy(1,37);
+                clearBottomClearIHM();
                 printf("Couleur %d: ",y);
                 scanf("%d", &couleurs.codeCouleur[i]);
                 viderTamponEntree();
@@ -520,57 +516,113 @@ void plateauDeJeuxIHM(int nbColor){
     
     gotoxy(1,37);
 }
-
+/**
+ * Permet de lancer la partie.
+ */
 void gameIHM(){
-    int ret=1, x=27, y=13;;
+    int ret=1, x=27, y=13, try=12, found=0;
     code c;
     
     do{
-        c = defCodeIHM(0, 0, 2);
-        ret = verifCodeSaisieApp(c, 0);
-        switch(ret){
-            case 1:
-                color(VERTF, NOIR);
-                printf("Code OK!");
-                color(BLANC, NOIR);
-                c = convertCode(c);
-                break;
-            case -2:
-                color(ROUGE, NOIR);
-                printf("ERREUR: ");
-                color(BLANC, NOIR);
-                printf("vous avez saisie une mauvaise couleur !!\n");
-                break;
-            default:
-                printf("unexpeted error");
-                break;
-        }
-    }while(ret != 1);
+        do{
+            c = defCodeIHM(0, 0, 2);
+            ret = verifCodeSaisieApp(c, 0);
+            switch(ret){
+                case 1:
+                    color(VERTF, NOIR);
+                    printf("Code OK!");
+                    color(BLANC, NOIR);
+                    c = convertCode(c);
+                    break;
+                case -2:
+                    color(ROUGE, NOIR);
+                    printf("ERREUR: ");
+                    color(BLANC, NOIR);
+                    printf("vous avez saisie une mauvaise couleur !!\n");
+                    break;
+                default:
+                    printf("unexpeted error");
+                    break;
+            }
+        }while(ret != 1);
     
-    affichTentativeIHM(c, y);
-    
-    
+        affichTentativeIHM(c, y);
+        y = checkCodeIHM(y);
+        try--;
+    }while((try != 0) || (found == 1));
 }
-
+/**
+ * Affiche la tentative de code du joueur.
+ * @param c     <- tentavie du code.
+ * @param y     <- Rang auquel écrire.
+ */
 void affichTentativeIHM(code c, int y){
     int x=27, i=0;
     
     for(x=27; x<40; x+=4){
         gotoxy(x, y);
         color(c.codeCouleur[i], NOIR);
-        
         printf("■");    //■
         i++;
     }
+    clearBottomClearIHM();
+}
+/**
+ * Permet de saisir et afficher le nombre de pions bon, mauvais etc ...
+ * @param y     <-  Permet d'écrire à la bonne ligne.
+ * @return y+2  <-  Retourne le prochain rang auquel écrire.
+ */
+int checkCodeIHM(int y){
+    int ret = 0, nbPions=0, x=14, i=0;
+    
+    do{    
+        clearBottomClearIHM();
+        color(JAUNEF, NOIR);
+        printf("Nombre de pions de la bonne couleur et bien placé: ");
+        scanf("%d", &nbPions);
+        ret = checkCodeNbPionsApp(nbPions);
+        viderTamponEntree();
+    }while(ret != 1);
+    
+    color(ROUGE, NOIR);
+    
+    for(i=0; i<nbPions; i++){
+        gotoxy(x, y);
+        printf("●");
+        x+=2;
+    }
+    
+    color(BLANC, NOIR);
+    clearBottomClearIHM();
+    
+    do{
+        color(JAUNEF, NOIR);
+        printf("Nombre de pions de la bonne couleur et mal placé: ");
+        scanf("%d", &nbPions);
+        ret = checkCodeNbPionsApp(nbPions);
+        viderTamponEntree();
+        clearBottomClearIHM();        
+    }while(ret != 1);
+    
+    color(BLANC, NOIR);
+    x=44;
+    for(i=0; i<nbPions; i++){
+        gotoxy(x, y);
+        printf("●");
+        x+=2;
+    }
+    clearBottomClearIHM();
+    
+    return(y+2);
+}
+/**
+ * Efface la partie basse de l'écrans quand la partie est en cours.
+ */
+void clearBottomClearIHM(){
     gotoxy(1,37);
     printf("                                                                \n"
            "                                                                \n"
+           "                                                                \n"
            "                                                                \n");
     gotoxy(1,37);
-}
-
-void checkCodeIHM(int y){   //TODO: fonction pour les "bille" rouges et blanches sur le côté
-    int ret = 1;
-    
-    
 }

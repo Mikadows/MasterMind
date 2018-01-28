@@ -8,7 +8,7 @@
 static code codeSecret;
 static int nombreDeManche = 0;
 
-void ajouterCodeSecretData(code c){   
+void ajouterCodeSecretData(code c){
     codeSecret = c;
 }
 
