@@ -42,6 +42,25 @@ $$ |  $$ |$$ |      $$ |      \$$$$$$$\  \$$$$  |
 "\t║\t• 11 Bleu \t\t• 13 Rose          ║\n"
 "\t╚══════════════════════════════════════════════════╝ \n"
  * 
+"\t╔══════════════════════════════════════════════════╗ \n"
+"\t║\t• 12 Rouge\t\t• 4  Marron        ║\n"
+"\t║                                    \t\t   ║\n"
+"\t║\t• 14 Jaune\t\t• 15 Blanc         ║\n
+"\t║                                    \t\t   ║  ╔═══════╗\n
+"\t║\t• 10 Vert \t\t• 5  Violet        ║  ║            ║\n
+"\t║                                    \t\t   ║  ╠═══╦═══╣\n 
+"\t║\t• 11 Bleu \t\t• 13 Rose          ║  ║     ║     ║\n
+"\t╚══════════════════════════════════════════════════╝  ╚═══╩═══╝\n
+ * ╔═══════╗\n
+ * ║            ║\n
+ * ╠═══╦═══╣\n 
+ * ║     ║     ║\n 
+ * ╚═══╩═══╝\n"
+ * 
+ * ╔═══╦═══╦═══╦═══╗\n
+ * ║     ║     ║     ║     ║\n
+ * ╠═══╬═══╬═══╬═══╣\n
+ * ╚═══╩═══╩═══╩═══╝\n
  * 
  * ╔═══════════════════════════════════════════════════════════════════╗\n
  * ║                                            • !! Règles du Jeux !! •                                         ║\n
@@ -61,9 +80,10 @@ $$ |  $$ |$$ |      $$ |      \$$$$$$$\  \$$$$  |
  * ║                                                                                                             ║\n
  * ║             Au bout des 12 tentavies si le code secret n'est pas trouvé, le "Joueur1" remporte la           ║\n
  * ║            manche et 1 point. Si le code est trouvé le "Joueur2" remporte la manche et le point.            ║\n
- * ║
- * ║                                 Quand une manche est gagné les rôles s'inversent.
- * 
+ * ║                                                                                                             ║\n 
+ * ║                                 Quand une manche est gagné les rôles s'inversent.                           ║\n
+ * ║                                                                                                             ║\n
+ * ╚═══════════════════════════════════════════════════════════════════╝\n
  * 
  */
 
@@ -72,6 +92,7 @@ $$ |  $$ |$$ |      $$ |      \$$$$$$$\  \$$$$  |
 #include <windows.h>
 #include "Application.h"
 #include "IHM.h"
+#include "conio21/conio.c"
 
 /**
  * Menu principal du MasterMind.
@@ -238,8 +259,8 @@ void affMainMenuIHM(int nbColor){
 }
 /**
  * Permet de lancer une partie contre un amis.
- * @param nbAff
- * @param nbColor
+ * @param nbAff Parametre pour l'affichage du titre
+ * @param nbColor Parametre pour la couleur du cadre 
  */
 void playVsFriendIHM(int nbAff, int nbColor){
     int ret=0, i=0, try=12;
@@ -263,7 +284,7 @@ void playVsFriendIHM(int nbAff, int nbColor){
     
     
     do{ //On définis le code couleur secret à trouver.
-        ret = verifCodeSaisieApp(defCodeIHM(nbAff, nbColor));
+        ret = verifCodeSaisieApp(defCodeIHM(nbAff, nbColor, 1), 1);
         switch(ret){
             case -2:
                 color(ROUGE, NOIR);
@@ -287,10 +308,12 @@ void playVsFriendIHM(int nbAff, int nbColor){
         system("cls");
     }while(ret != 1);
     
+    //configuration de l'écran de jeux
     system("mode con lines=50 cols=80");
-    printf("La partie commence !\n\n");
-    //colorDispoIHM(nbColor);   //A tester et a redimensionner
-    printf("Joueur 2 faite une tentative! ( %d essaie restant.)", try);
+    colorDispoIHM(nbColor, 2); 
+    plateauDeJeuxIHM(nbColor);
+    
+    gameIHM();
     
     
     
@@ -300,69 +323,141 @@ void playVsFriendIHM(int nbAff, int nbColor){
 /**
  * Affiche les couleurs disponibles pour jouer.
  * @param nbColor   <- Permet l'affichage du cadre de la même couleur que le cadre du titre principal
+ * @param entrer    <- 1 ou 2 selon l'endroit appelé
  */
-void colorDispoIHM(int nbColor){
-    printf("\t\t\t\tLes couleurs disponibles pour composer le code sont: \n");
-    color(nbColor, NOIR);
-    printf("\t\t\t\t╔══════════════════════════════════════════════════╗ \n"
-           "\t\t\t\t║\t");
-    color(ROUGE, NOIR);
-    printf("• 1 Rouge\t\t");
-    color(MARRON, NOIR);
-    printf("• 5  Marron");
-    color(nbColor, NOIR);
-    printf("        ║\n"
-           "\t\t\t\t║                                    \t\t   ║\n"
-           "\t\t\t\t║\t");
-    color(JAUNEF, NOIR);
-    printf("• 2 Jaune\t\t");
-    color(BLANC, NOIR);
-    printf("• 6 Blanc");
-    color(nbColor, NOIR);
-    printf("         ║\n"
-           "\t\t\t\t║                                    \t\t   ║\n"
-           "\t\t\t\t║\t");
-    color(VERTF, NOIR);
-    printf("• 3 Vert \t\t");
-    color(POURP, NOIR);
-    printf("• 7  Violet");
-    color(nbColor, NOIR);
-    printf("        ║\n"
-           "\t\t\t\t║                                    \t\t   ║\n"
-           "\t\t\t\t║\t");
-    color(TURQ, NOIR);
-    printf("• 4 Bleu \t\t");
-    color(ROSEF, NOIR);
-    printf("• 8 Rose");
-    color(nbColor, NOIR);
-    printf("          ║\n"
-           "\t\t\t\t╚══════════════════════════════════════════════════╝  ");
+void colorDispoIHM(int nbColor, int entrer){
+    switch(entrer){
+        case 1:
+            printf("\t\t\t\tLes couleurs disponibles pour composer le code sont: \n");
+            color(nbColor, NOIR);
+            printf("\t\t\t\t╔══════════════════════════════════════════════════╗ \n"
+                   "\t\t\t\t║\t");
+            color(ROUGE, NOIR);
+            printf("• 1 Rouge\t\t");
+            color(MARRON, NOIR);
+            printf("• 5  Marron");
+            color(nbColor, NOIR);
+            printf("        ║\n"
+                   "\t\t\t\t║                                    \t\t   ║\n"
+                   "\t\t\t\t║\t");
+            color(JAUNEF, NOIR);
+            printf("• 2 Jaune\t\t");
+            color(BLANC, NOIR);
+            printf("• 6 Blanc");
+            color(nbColor, NOIR);
+            printf("          ║\n"
+                   "\t\t\t\t║                                    \t\t   ║\n"
+                   "\t\t\t\t║\t");
+            color(VERTF, NOIR);
+            printf("• 3 Vert \t\t");
+            color(POURP, NOIR);
+            printf("• 7  Violet");
+            color(nbColor, NOIR);
+            printf("        ║\n"
+                   "\t\t\t\t║                                    \t\t   ║\n"
+                   "\t\t\t\t║\t");
+            color(TURQ, NOIR);
+            printf("• 4 Bleu \t\t");
+            color(ROSEF, NOIR);
+            printf("• 8 Rose");
+            color(nbColor, NOIR);
+            printf("           ║\n"
+                   "\t\t\t\t╚══════════════════════════════════════════════════╝  ");     
+            break;
+        case 2:
+            color(nbColor, NOIR);
+            printf("\n\t╔══════════════════════════════════════════════════╗ \n"
+                   "\t║\t");
+            color(ROUGE, NOIR);
+            printf("• 1 Rouge\t\t");
+            color(MARRON, NOIR);
+            printf("• 5  Marron");
+            color(nbColor, NOIR);
+            printf("        ║\n"
+                   "\t║                                    \t\t   ║\n"
+                   "\t║\t");
+            color(JAUNEF, NOIR);
+            printf("• 2 Jaune\t\t");
+            color(BLANC, NOIR);
+            printf("• 6 Blanc");
+            color(nbColor, NOIR);
+            printf("          ║\n"
+                   "\t║                                    \t\t   ║  ╔═══════╗\n"
+                   "\t║\t");
+            color(VERTF, NOIR);
+            printf("• 3 Vert \t\t");
+            color(POURP, NOIR);
+            printf("• 7  Violet");
+            color(nbColor, NOIR);
+            printf("        ║  ║ ");
+            color(JAUNEF, NOIR);
+            printf("Score");
+            color(nbColor, NOIR);
+            printf(" ║\n"
+                   "\t║                                    \t\t   ║  ╠═══╦═══╣\n "
+                   "\t║\t");
+            color(TURQ, NOIR);
+            printf("• 4 Bleu \t\t");
+            color(ROSEF, NOIR);
+            printf("• 8 Rose");
+            color(nbColor, NOIR);
+            printf("           ║  ║ 0 ║ 0 ║\n"
+                   "\t╚══════════════════════════════════════════════════╝  ╚═══╩═══╝\n");
+            color(BLANC, NOIR);
+            break;
+        default:
+            break;
+   
+    }
+
 }
 /**
  * Permet d'entré un code de couleur.
  * @param nbAff  <- permet l'affichage du titre.
  * @param nbColor   <- Permet l'affichage de la couleur du cadre.
+ * @param entrer    <- 1 ou 2 selon l'endroit appelé
  * @return <- retourne le code couleur.
  */
-code defCodeIHM(int nbAff, int nbColor){          //int defCodeIHM(){
+code defCodeIHM(int nbAff, int nbColor, int entrer){          //int defCodeIHM(){
     code couleurs;
     int i=0, y=1; 
     
-    for(i=0; i<4; i++){
-        system("cls");
-        affMainTitleIHM(nbAff, nbColor);
-        color(JAUNEF, NOIR);
-        printf("\t\t\t\t  • Joueur1 veuillez choisir le code couleur •\n\n");
-        colorDispoIHM(nbColor);
-        color(JAUNEF, NOIR);
-        printf("Couleur ");
-        printf("%d", y);
-        color(nbColor, NOIR);
-        printf(": ");
-        color(BLANC, NOIR);
-        scanf("%d", &couleurs.codeCouleur[i]);
-        viderTamponEntree();
-        y++;
+    switch(entrer){
+        case 1:
+            for(i=0; i<4; i++){
+                system("cls");
+                affMainTitleIHM(nbAff, nbColor);
+                color(JAUNEF, NOIR);
+                printf("\t\t\t\t  • Joueur1 veuillez choisir le code couleur •\n\n");
+                colorDispoIHM(nbColor, 1);
+                color(JAUNEF, NOIR);
+                printf("Couleur %d", y);
+                color(nbColor, NOIR);
+                printf(": ");
+                color(BLANC, NOIR);
+                scanf("%d", &couleurs.codeCouleur[i]);
+                viderTamponEntree();
+                y++;
+            }
+            break;
+        case 2:
+            for(i=0; i<4; i++){
+                color(JAUNEF, NOIR);
+                gotoxy(1,37);
+                printf("                                                                \n"
+                       "                                                                \n"
+                       "                                                                \n");
+                gotoxy(1,37);
+                printf("Couleur %d: ",y);
+                scanf("%d", &couleurs.codeCouleur[i]);
+                viderTamponEntree();
+                y++;                
+            }
+            break;
+        default:
+            printf("Erreur d'appel");
+            break;
+            
     }
     return(couleurs);
 }
@@ -391,4 +486,91 @@ int nbManchesIHM(int nbAff, int nbColor){
     viderTamponEntree();
     
     return(manche);
+}
+/**
+ * Affiche le plateau de Jeux
+ * @param nbColor   <- paramettre de la couleur du plateau de jeux
+ */
+void plateauDeJeuxIHM(int nbColor){
+    int i=0;
+    
+    color(nbColor, NOIR);
+    printf("\n\t\t\t╔═══╦═══╦═══╦═══╗\n");
+    for(i=0; i<11; i++){
+        printf("\t\t\t║   ║   ║   ║   ║\n"
+               "\t\t\t╠═══╬═══╬═══╬═══╣\n");
+    }
+    printf("\t\t\t║   ║   ║   ║   ║\n"
+           "\t\t\t╚═══╩═══╩═══╩═══╝\n\n");
+    color(BLANC, NOIR);
+    
+    //for(y=13; y<; y=y+2)
+    /*for(x=27; x<40; x+=4){
+        gotoxy(x, y);
+        printf("■");
+        //system("pause");
+    }*/
+    /*for(x=27; x<40; x+=4){
+        gotoxy(x, 15);
+        printf("■");
+        //system("pause");
+    }*/
+    //●
+    //printf("0");
+    
+    gotoxy(1,37);
+}
+
+void gameIHM(){
+    int ret=1, x=27, y=13;;
+    code c;
+    
+    do{
+        c = defCodeIHM(0, 0, 2);
+        ret = verifCodeSaisieApp(c, 0);
+        switch(ret){
+            case 1:
+                color(VERTF, NOIR);
+                printf("Code OK!");
+                color(BLANC, NOIR);
+                c = convertCode(c);
+                break;
+            case -2:
+                color(ROUGE, NOIR);
+                printf("ERREUR: ");
+                color(BLANC, NOIR);
+                printf("vous avez saisie une mauvaise couleur !!\n");
+                break;
+            default:
+                printf("unexpeted error");
+                break;
+        }
+    }while(ret != 1);
+    
+    affichTentativeIHM(c, y);
+    
+    
+}
+
+void affichTentativeIHM(code c, int y){
+    int x=27, i=0;
+    
+    for(x=27; x<40; x+=4){
+        gotoxy(x, y);
+        color(c.codeCouleur[i], NOIR);
+        
+        printf("■");    //■
+        i++;
+    }
+    gotoxy(1,37);
+    printf("                                                                \n"
+           "                                                                \n"
+           "                                                                \n");
+    gotoxy(1,37);
+}
+
+void checkCodeIHM(int y){   //TODO: fonction pour les "bille" rouges et blanches sur le côté
+    int ret = 1;
+    
+    
 }
