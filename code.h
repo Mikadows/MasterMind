@@ -18,11 +18,7 @@
 extern "C" {
 #endif
   
-    typedef struct{
-        int tryCouleur[4];
-        
-    }game;
-    
+
   typedef struct{
         int codeCouleur[4];
   }code;

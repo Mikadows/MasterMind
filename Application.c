@@ -63,7 +63,7 @@ return(nb_aleatoire);
  * @return 1 si pas d'erreur, -2 si mauvaise couleur, -1 si couleur redondante.
  */
 int verifCodeSaisieApp(code c, int entrer){
-    int i=0, ret=1, y=0;
+    int i=0, ret=0, y=0;
 
     for(i=0; i<4; i++){             //Test si les couleurs saisies sont bonnes 
         switch(c.codeCouleur[i]){   //Et les fais correspondres.
@@ -96,8 +96,9 @@ int verifCodeSaisieApp(code c, int entrer){
                 break;
         }
     }
-
+    
     if((ret != -2) && (entrer != 0)){      //Si les couleurs saisies sont bonnes on vérifie si elles ne sont pas redondantes.
+        ret=1;
         for(y = 0; y < 4; y++){
             for(i = y + 1; i < 4; i++){
                 //printf("\n y : %d - i : %d \n", y, i);
@@ -123,6 +124,10 @@ int verifCodeSaisieApp(code c, int entrer){
     if(ret == 1){
         ajouterCodeSecretData(c);
     }
+    if((ret == 0) && (entrer == 0)){
+        ret=1;
+    }
+
     return(ret);
 }
 /**
@@ -188,6 +193,19 @@ int checkCodeNbPionsApp(int nb){
     
     if((nb>-1) && (nb<5)){
         ret=1;
+    }
+    return(ret);
+}
+
+int verifCodeFoundedApp(code try, int mode){
+    int i = 0, ret=0;
+    code codeSecret;
+  
+    sendCodeSecretData(&codeSecret);
+    for(i=0; i<4; i++){
+        if(codeSecret.codeCouleur[i] == try.codeCouleur[i]){
+            ret+=1;
+        }
     }
     return(ret);
 }

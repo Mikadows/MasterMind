@@ -27,6 +27,9 @@ int nb_rand(int entrer);
 int verifCodeSaisieApp(code c, int entrer);
 int verifNbMancheApp(int nbManche);
 code convertCode(code c);
+int checkCodeNbPionsApp(int nb);
+int verifCodeFoundedApp(code try, int mode);
+
 
 #ifdef __cplusplus
 }

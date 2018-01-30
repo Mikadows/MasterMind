@@ -15,3 +15,7 @@ void ajouterCodeSecretData(code c){
 void ajouterNombreMancheData(int nbManche){
     nombreDeManche = nbManche;
 }
+
+void sendCodeSecretData(code *cs){
+    *cs = codeSecret;
+}

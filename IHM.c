@@ -313,7 +313,6 @@ void playVsFriendIHM(int nbAff, int nbColor){
     colorDispoIHM(nbColor, 2); 
     plateauDeJeuxIHM(nbColor);
     //Lance la partie
-    //TODO
     gameIHM();
     
     
@@ -520,19 +519,19 @@ void plateauDeJeuxIHM(int nbColor){
  * Permet de lancer la partie.
  */
 void gameIHM(){
-    int ret=1, x=27, y=13, try=12, found=0;
-    code c;
+    int ret=1, x=27, y=13, tour=12, found=0, i=0;
+    code try;
     
     do{
         do{
-            c = defCodeIHM(0, 0, 2);
-            ret = verifCodeSaisieApp(c, 0);
+            try = defCodeIHM(0, 0, 2);
+            ret = verifCodeSaisieApp(try, 0);
             switch(ret){
                 case 1:
                     color(VERTF, NOIR);
                     printf("Code OK!");
                     color(BLANC, NOIR);
-                    c = convertCode(c);
+                    try = convertCode(try);
                     break;
                 case -2:
                     color(ROUGE, NOIR);
@@ -546,10 +545,14 @@ void gameIHM(){
             }
         }while(ret != 1);
     
-        affichTentativeIHM(c, y);
+        affichTentativeIHM(try, y);
         y = checkCodeIHM(y);
-        try--;
-    }while((try != 0) || (found == 1));
+        found = verifCodeFoundedApp(try, 0);
+        tour--;
+        if((tour == 0) || (found == 4)){
+            ret=-1;
+        }
+    }while(ret != -1);
 }
 /**
  * Affiche la tentative de code du joueur.
@@ -625,4 +628,20 @@ void clearBottomClearIHM(){
            "                                                                \n"
            "                                                                \n");
     gotoxy(1,37);
+}
+
+void test(){
+    int i=111;
+    code cs, try;
+    
+    cs = defCodeIHM(1, 15, 1);
+    try = defCodeIHM(0, 0, 2);
+    
+    i=verifCodeFoundedApp(try, 0);
+    
+    
+    
+    
+    
+    //printf("\n%d\n", i);
 }
