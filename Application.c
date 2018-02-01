@@ -46,19 +46,20 @@ int nb_rand(int entrer){
     
     switch(entrer){
         case 1:
-            do{
-                nb_aleatoire = rand()% 15;
-            }while(nb_aleatoire == 0);          // On ne sort pas de la boucle tant qu'on à 0 pour ne pas avoir du noir    
-        break;
+            nb_aleatoire = rand()% 15 +1;         //+1 pour ne pas être à 0    
+            break;
         case 2:
             nb_aleatoire = rand()% 2;
-        break;
+            break;
+        case 3:
+            nb_aleatoire = rand()%8 +1;         //+1 pour ne pas être à 0
+            break;
     }
     
 return(nb_aleatoire);
 }
 /**
- * Vérifie le code couleur secret qu'on lui envoie.
+ * Vérifie le code couleur secret qu'on lui envoie. Si elle est bonne, la stock dans data.
  * @param c <- code secret de type code
  * @return 1 si pas d'erreur, -2 si mauvaise couleur, -1 si couleur redondante.
  */
@@ -227,7 +228,6 @@ int verifEndGameApp(int tour, int found){
     }
     return(ret);
 }
-
 /**
  * Vérifie qui à gagné la partie.
  * @param tour  <- nombre de tour joué
@@ -324,4 +324,62 @@ int endGameApp(){
         ret = -1;
     }
     return(ret);
+}
+/**
+ * Définie quelle joueur met le code
+ * @param joueurDefCode <-- Joueur qui à mit précedement le code
+ * @return  <-- retourne le nouveaux joueur qui va définir le code
+ */
+int quiJouApp(int joueurDefCode){
+    switch(joueurDefCode){
+        case 1:
+            joueurDefCode=2;
+            break;
+        case 2:
+            joueurDefCode=1;
+            break;
+    }
+    return(joueurDefCode);
+}
+/**
+ * Definie un code couleur aléatoire
+ * @return retoune le code généré
+ */
+code defCodeIaApp(){
+    code cs;
+    int i=0, nb=0;
+    
+    for(i=0; i<4; i++){
+        do{
+            nb = nb_rand(3);
+            printf("%d\n", nb);
+        }while(nb == cs.codeCouleur[i-1]);
+        cs.codeCouleur[i] = nb;
+    }
+    return(cs);
+}
+
+int checkCodeApp(int y, code try){
+    code cs;
+    int i=0, j=0, nbPions=0;
+    
+    sendCodeSecretData(&cs);
+    
+    for(i=0; i<4; i++){
+        if(try.codeCouleur[i] == cs.codeCouleur[i]){
+            nbPions+=1;
+        }
+    }
+    affPionRouge(nbPions, y);
+    nbPions=0;          
+    for(i=0; i<4; i++){     //TODO : A DEBUG
+        for(j=0; j<4; i++){
+            if(try.codeCouleur[j] == cs.codeCouleur[i]){
+                nbPions+=1;
+            }
+        }
+    }
+    affPionBlanc(nbPions, y);
+    
+    return(y+2);
 }

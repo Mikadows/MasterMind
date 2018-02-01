@@ -34,6 +34,9 @@ int winApp(int tour);
 void initScoreApp();
 score getScoreApp();
 int defScoreApp(int winner, int joueurDefCode);
+int quiJouApp(int joueurDefCode);
+code defCodeIaApp();
+int checkCodeApp(int y, code try);
 
 #ifdef __cplusplus
 }

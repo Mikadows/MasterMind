@@ -120,7 +120,7 @@ void mainAffichaheIHM(){
                 playVsFriendIHM(nbAff, nbColor);
                 break;
             case 2:
-            
+                playVsIaIHM(nbAff, nbColor);
                 break;
             case 3:
             
@@ -267,6 +267,7 @@ void playVsFriendIHM(int nbAff, int nbColor){
     code c;
     score s;
     
+    regleJcJIHM(nbColor, nbAff);
     initScoreApp();
     
     do{ //On définit le nombre de manche
@@ -286,17 +287,7 @@ void playVsFriendIHM(int nbAff, int nbColor){
     }while(ret != 1);
     
     do{
-        //printf("av sw--> %d\n", joueurDefCode);
-        switch(joueurDefCode){
-            case 1:
-                joueurDefCode=2;
-                break;
-            case 2:
-                joueurDefCode=1;
-                break;
-        }
-        //printf("ap sw--> %d\n", joueurDefCode);
-        //system("pause");
+        joueurDefCode = quiJouApp(joueurDefCode);
         do{ //On définis le code couleur secret à trouver.
             system("mode con lines=40 cols=120"); //Permet de configurer la taille de la console, lines=NombreDeLigne (hauteur) && cols=NombreDeColonnes (Largeur).
             system("cls");
@@ -331,7 +322,7 @@ void playVsFriendIHM(int nbAff, int nbColor){
         s = getScoreApp();        
         affichScoreIHM(s);
         //Lance la partie
-        ret = gameIHM();    //Retoune 1 si J1 win ou 2 si J2 win
+        ret = gameIHM(1);    //Retoune 1 si J1 win ou 2 si J2 win
         //Ajoute un point au gagnant
         ret = defScoreApp(ret, joueurDefCode);
         switch(ret){
@@ -555,7 +546,7 @@ void plateauDeJeuxIHM(int nbColor){
 /**
  * Permet de lancer la partie.
  */
-int gameIHM(){
+int gameIHM(int mode){
     int ret=1, x=27, y=13, tour=12, found=0, i=0;
     code try;
     
@@ -583,7 +574,14 @@ int gameIHM(){
         }while(ret != 1);
     
         affichTentativeIHM(try, y);
-        y = checkCodeIHM(y);
+        switch(mode){
+            case 1:
+                y = checkCodeIHM(y);
+                break;
+            case 2:
+                y = checkCodeApp(y, try);
+                break;
+        }
         found = verifCodeFoundedApp(try);
         tour--;
         ret = verifEndGameApp(tour, found);
@@ -623,18 +621,9 @@ int checkCodeIHM(int y){
         ret = checkCodeNbPionsApp(nbPions);
         viderTamponEntree();
     }while(ret != 1);
-    
-    color(ROUGE, NOIR);
-    
-    for(i=0; i<nbPions; i++){
-        gotoxy(x, y);
-        printf("●");
-        x-=2;
-    }
-    
+    affPionRouge(nbPions, y);
     color(BLANC, NOIR);
     clearBottomClearIHM();
-    
     do{
         color(JAUNEF, NOIR);
         printf("Nombre de pions de la bonne couleur et mal placé: ");
@@ -643,18 +632,42 @@ int checkCodeIHM(int y){
         viderTamponEntree();
         clearBottomClearIHM();        
     }while(ret != 1);
+    affPionBlanc(nbPions, y);
+    clearBottomClearIHM();
+    
+    return(y+2);
+}
+/**
+ * Affiche les pionts rouges (bon et bien placé)
+ * @param nbPions   <-- Nombre de pions à placer
+ * @param y     <-- rang auquel écrire.
+ */
+void affPionRouge(int nbPions, int y){
+    int x=20, i=0;
+    
+    color(ROUGE, NOIR);
+    for(i=0; i<nbPions; i++){
+        gotoxy(x, y);
+        printf("●");
+        x-=2;
+    }
+}
+/**
+ * Affiche les pionts blanc (Bon mais mal placé)
+ * @param nbPions   <-- Nombre de pions à placer
+ * @param y     <-- rang auquel écrire.
+ */
+void affPionBlanc(int nbPions, int y){
+    int x=44, i=0;
     
     color(BLANC, NOIR);
-    x=44;
     for(i=0; i<nbPions; i++){
         gotoxy(x, y);
         printf("●");
         x+=2;
     }
-    clearBottomClearIHM();
-    
-    return(y+2);
 }
+
 /**
  * Efface la partie basse de l'écrans quand la partie est en cours.
  */
@@ -678,4 +691,165 @@ void affichScoreIHM(score s){
     printf("%d", s.scoreJ1);
     gotoxy(69, 9);
     printf("%d", s.scoreJ2);
+}
+/**
+ * Affiche les règles
+ * @param nbColor   <-- Couleur pour l'affichage
+ * @param nbAff     <-- Nombre pour l'affichage du titre
+ */
+void regleJcJIHM(int nbColor, int nbAff){
+    system("cls");
+    affMainTitleIHM(nbAff, nbColor);
+    color(nbColor, NOIR);
+    printf("    ╔═════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n"
+           "    ║                                            ");
+    color(ROUGE, NOIR);
+    printf("•");
+    color(JAUNEF, NOIR);
+    printf(" !! Règles du Jeux !!");
+    color(ROUGE, NOIR);
+    printf(" •");
+    color(nbColor, NOIR);
+    printf("                                         ║\n"
+           "    ║                                                                                                             ║\n"
+           "    ║                                          ");
+    color(ROUGE, NOIR);
+    printf("•");
+    color(JAUNEF, NOIR);
+    printf("   Joueur  contre Joueur   ");
+    color(ROUGE, NOIR);
+    printf("•");
+    color(nbColor, NOIR);
+    printf("                                      ║\n"
+           "    ║                  ");
+    color(JAUNEF, NOIR);
+    printf("En JcJ, vous devez définir le nombre de manches gagnantes pour remporter la partie.");
+    color(nbColor, NOIR);
+    printf("        ║\n"                                     
+           "    ║                     ");
+    color(JAUNEF, NOIR);
+    printf("Le \"Joueur1\" doit composé un code secret de 4 couleurs différentes.");
+    color(nbColor, NOIR);
+    printf("                     ║\n"
+           "    ║                          ");
+    color(JAUNEF, NOIR);
+    printf("Ce code couleur devra être composé des couleurs proposés.");
+    color(nbColor, NOIR);
+    printf("                          ║\n"
+           "    ║                ");
+    color(JAUNEF, NOIR);
+    printf("Après ceci l'autre \"Joueur2\" à 12 tentatives pour trouver le code secret.");
+    color(nbColor, NOIR);
+    printf("                    ║\n"
+           "    ║                                                                                                             ║\n"
+           "    ║             ");
+    color(ROUGE, NOIR);
+    printf("•");
+    color(JAUNEF, NOIR);
+    printf(" Après chaque tentatives du \"Joueur2\" le \"Joueur1\" lui indique si dans la proposition,");
+    color(nbColor, NOIR);
+    printf("         ║\n"
+           "    ║             ");
+    color(JAUNEF, NOIR);
+    printf("un ou plusieurs \"pions\" de couleurs sont bien dans la combinaison et à la bonne place,");
+    color(nbColor, NOIR);
+    printf("          ║\n"
+           "    ║             ");
+    color(JAUNEF, NOIR);
+    printf("en plaçant des \"pions\" rouges selon le nombre.");
+    color(nbColor, NOIR);
+    printf("                                                  ║\n"
+           "    ║             ");
+    color(ROUGE, NOIR);
+    printf("•");
+    color(JAUNEF, NOIR);
+    printf(" Le \"Joueur1\" fera de même en indiquant si dans la proposition, un ou plusieurs pions");
+    color(nbColor, NOIR);
+    printf("          ║\n"
+           "    ║             ");
+    color(JAUNEF, NOIR);
+    printf("de couleurs sont bien dans la combinaison mais pas à la bonne place, en plaçant des");
+    color(nbColor, NOIR);
+    printf("             ║\n"
+           "    ║             ");
+    color(JAUNEF, NOIR);
+    printf("\"pions\" blancs selon le nombre.");
+    color(nbColor, NOIR);
+    printf("                                                                 ║\n"
+           "    ║                                                                                                             ║\n"
+           "    ║             ");
+    color(JAUNEF, NOIR);
+    printf("Au bout des 12 tentavies si le code secret n'est pas trouvé, le \"Joueur1\" remporte la");
+    color(nbColor, NOIR);
+    printf("           ║\n"
+           "    ║            ");
+    color(JAUNEF, NOIR);
+    printf("manche et 1 point. Si le code est trouvé le \"Joueur2\" remporte la manche et le point.");
+    color(nbColor, NOIR);
+    printf("            ║\n"
+           "    ║                                                                                                             ║\n"
+           "    ║                                 ");
+    color(JAUNEF, NOIR);
+    printf("Quand une manche est gagné les rôles s'inversent.");
+    color(nbColor, NOIR);
+    printf("                           ║\n"
+           "    ║                                                                                                             ║\n"
+           "    ╚═════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n");
+    color(BLANC, NOIR);
+    system("pause");
+}
+
+void playVsIaIHM(int nbAff, int nbColor){
+    int ret=0, joueurDefCode=2, i=0;
+    code c;
+    score s;
+    
+    //regleJcJIHM(nbColor, nbAff);
+    initScoreApp();
+    
+    do{ //On définit le nombre de manche
+        ret = verifNbMancheApp(nbManchesIHM(nbAff, nbColor));
+        if(ret == 1){
+            color(VERTF, NOIR);
+            printf("\n\t\t\t\tNombre de manche bien enregistré !\n");
+            color(BLANC, NOIR);
+        }else{
+            color(ROUGE, NOIR);
+            printf("\n\t\t\t\tERREUR:");
+            color(BLANC, NOIR);            
+            printf(" vous avez saisie un mauvais nombre de manche !!\n");            
+        }
+        system("pause");
+        system("cls");        
+    }while(ret != 1);
+    
+    do{
+        do{ //On définis le code couleur secret à trouver.
+            system("mode con lines=40 cols=120"); //Permet de configurer la taille de la console, lines=NombreDeLigne (hauteur) && cols=NombreDeColonnes (Largeur).
+            system("cls");
+            ret = verifCodeSaisieApp(defCodeIaApp(), 1);
+        }while(ret != 1);
+
+        //configuration de l'écran de jeux
+        system("mode con lines=50 cols=80");
+        colorDispoIHM(nbColor, 2); 
+        plateauDeJeuxIHM(nbColor);
+        s = getScoreApp();        
+        affichScoreIHM(s);
+        //Lance la partie
+        ret = gameIHM(2);    //Retoune 1 si J1 win ou 2 si J2 win
+        //Ajoute un point au gagnant
+        ret = defScoreApp(ret, joueurDefCode);
+        switch(ret){
+            case 1:
+                printf("Score bien ajouté !");
+                break;
+            case 0:
+                printf("ERREUR: dans l'ajout des score");
+                break;
+        }
+        system("pause");
+        
+        ret = endGameApp();
+    }while(ret != -1);
 }

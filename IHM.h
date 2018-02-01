@@ -30,11 +30,15 @@ void colorDispoIHM(int nbColor, int entrer);
 code defCodeIHM(int nbAff, int nbColor, int joueurDefCode);
 int nbManchesIHM(int nbAff, int nbColor);
 void plateauDeJeuxIHM(int nbColor);
-int gameIHM();
+int gameIHM(int mode);
 void affichTentativeIHM(code c, int y);
 int checkCodeIHM(int y);
+void affPionRouge(int nbPions, int y);
+void affPionBlanc(int nbPions, int y);
 void clearBottomClearIHM();
 void affichScoreIHM(score s);
+void regleJcJIHM(int nbColor, int nbAff);
+void playVsIaIHM(int nbAff, int nbColor);
     
 #ifdef __cplusplus
 }
