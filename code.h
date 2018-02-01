@@ -18,10 +18,14 @@
 extern "C" {
 #endif
   
+    typedef struct{
+        int scoreJ1;
+        int scoreJ2;
+    }score; 
 
-  typedef struct{
+    typedef struct{
         int codeCouleur[4];
-  }code;
+    }code;
 
 
 #ifdef __cplusplus

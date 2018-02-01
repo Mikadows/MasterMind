@@ -30,6 +30,7 @@ code convertCode(code c);
 int checkCodeNbPionsApp(int nb);
 int verifCodeFoundedApp(code try, int mode);
 
+score getScoreApp();
 
 #ifdef __cplusplus
 }

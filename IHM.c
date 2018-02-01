@@ -263,8 +263,11 @@ void affMainMenuIHM(int nbColor){
  * @param nbColor Parametre pour la couleur du cadre 
  */
 void playVsFriendIHM(int nbAff, int nbColor){
-    int ret=0, i=0, try=12;
+    int ret=0, joueurDefCode=2;
     code c;
+    score s;
+    
+    initScoreApp();
     
     do{ //On définit le nombre de manche
         ret = verifNbMancheApp(nbManchesIHM(nbAff, nbColor));
@@ -282,42 +285,67 @@ void playVsFriendIHM(int nbAff, int nbColor){
         system("cls");        
     }while(ret != 1);
     
-    
-    do{ //On définis le code couleur secret à trouver.
-        ret = verifCodeSaisieApp(defCodeIHM(nbAff, nbColor, 1), 1);
-        switch(ret){
-            case -2:
-                color(ROUGE, NOIR);
-                printf("\n\t\t\t\tERREUR:");
-                color(BLANC, NOIR);            
-                printf(" vous avez saisie une mauvaise couleur !!\n");
-                break;
-            case -1:
-                color(ROUGE, NOIR);
-                printf("\n\t\t\t\tERREUR:");
-                color(BLANC, NOIR);            
-                printf(" Il y a des couleurs identiques dans le code !!\n");
-                break;
+    do{
+        printf("av sw--> %d\n", joueurDefCode);
+        switch(joueurDefCode){
             case 1:
-                color(VERTF, NOIR);
-                printf("\n\t\t\t\tCode corect et bien enregistré!\n");
-                color(BLANC, NOIR);
-                break;  
+                joueurDefCode=2;
+                break;
+            case 2:
+                joueurDefCode=1;
+                break;
+        }
+        printf("ap sw--> %d\n", joueurDefCode);
+        system("pause");
+        do{ //On définis le code couleur secret à trouver.
+            system("mode con lines=40 cols=120"); //Permet de configurer la taille de la console, lines=NombreDeLigne (hauteur) && cols=NombreDeColonnes (Largeur).
+            system("cls");
+            ret = verifCodeSaisieApp(defCodeIHM(nbAff, nbColor,joueurDefCode), 1);
+            switch(ret){
+                case -2:
+                    color(ROUGE, NOIR);
+                    printf("\n\t\t\t\tERREUR:");
+                    color(BLANC, NOIR);            
+                    printf(" vous avez saisie une mauvaise couleur !!\n");
+                    break;
+                case -1:
+                    color(ROUGE, NOIR);
+                    printf("\n\t\t\t\tERREUR:");
+                    color(BLANC, NOIR);            
+                    printf(" Il y a des couleurs identiques dans le code !!\n");
+                    break;
+                case 1:
+                    color(VERTF, NOIR);
+                    printf("\n\t\t\t\tCode corect et bien enregistré!\n");
+                    color(BLANC, NOIR);
+                    break;  
+            }
+            system("pause");
+            system("cls");
+        }while(ret != 1);
+    
+        //configuration de l'écran de jeux
+        system("mode con lines=50 cols=80");
+        colorDispoIHM(nbColor, 2); 
+        plateauDeJeuxIHM(nbColor);
+        s = getScoreApp();        
+        affichScoreIHM(s);
+        //Lance la partie
+        ret = gameIHM();    //Retoune 1 si J1 win ou 2 si J2 win
+        //Ajoute un point au gagnant
+        ret = defScoreApp(ret, joueurDefCode);
+        switch(ret){
+            case 1:
+                printf("Score bien ajouté !");
+                break;
+            case 0:
+                printf("ERREUR: dans l'ajout des score");
+                break;
         }
         system("pause");
-        system("cls");
-    }while(ret != 1);
-    
-    //configuration de l'écran de jeux
-    system("mode con lines=50 cols=80");
-    colorDispoIHM(nbColor, 2); 
-    plateauDeJeuxIHM(nbColor);
-    //Lance la partie
-    gameIHM();
-    
-    
-    system("pause");
-
+        
+        ret = endGameApp();
+    }while(ret != -1);
 }
 /**
  * Affiche les couleurs disponibles pour jouer.
@@ -400,7 +428,7 @@ void colorDispoIHM(int nbColor, int entrer){
             color(ROSEF, NOIR);
             printf("• 8 Rose");
             color(nbColor, NOIR);
-            printf("           ║  ║ 0 ║ 0 ║\n"
+            printf("           ║  ║ %d ║ %d ║\n"
                    "\t╚══════════════════════════════════════════════════╝  ╚═══╩═══╝\n");
             color(BLANC, NOIR);
             break;
@@ -417,17 +445,17 @@ void colorDispoIHM(int nbColor, int entrer){
  * @param entrer    <- 1 ou 2 selon l'endroit appelé
  * @return <- retourne le code couleur.
  */
-code defCodeIHM(int nbAff, int nbColor, int entrer){          //int defCodeIHM(){
+code defCodeIHM(int nbAff, int nbColor, int joueurDefCode){          //int defCodeIHM(){
     code couleurs;
     int i=0, y=1; 
     
-    switch(entrer){
-        case 1:
+    switch(joueurDefCode){
+        case 1 || 2:
             for(i=0; i<4; i++){
                 system("cls");
                 affMainTitleIHM(nbAff, nbColor);
                 color(JAUNEF, NOIR);
-                printf("\t\t\t\t  • Joueur1 veuillez choisir le code couleur •\n\n");
+                printf("\t\t\t\t  • Joueur%d veuillez choisir le code couleur •\n\n", joueurDefCode);
                 colorDispoIHM(nbColor, 1);
                 color(JAUNEF, NOIR);
                 printf("Couleur %d", y);
@@ -439,7 +467,7 @@ code defCodeIHM(int nbAff, int nbColor, int entrer){          //int defCodeIHM()
                 y++;
             }
             break;
-        case 2:
+        case 3:
             for(i=0; i<4; i++){
                 color(JAUNEF, NOIR);
                 clearBottomClearIHM();
@@ -450,7 +478,7 @@ code defCodeIHM(int nbAff, int nbColor, int entrer){          //int defCodeIHM()
             }
             break;
         default:
-            printf("Erreur d'appel");
+            printf("Erreur d'appel pas d'entré définie");
             break;
             
     }
@@ -518,13 +546,13 @@ void plateauDeJeuxIHM(int nbColor){
 /**
  * Permet de lancer la partie.
  */
-void gameIHM(){
+int gameIHM(){
     int ret=1, x=27, y=13, tour=12, found=0, i=0;
     code try;
     
     do{
         do{
-            try = defCodeIHM(0, 0, 2);
+            try = defCodeIHM(0, 0, 3);
             ret = verifCodeSaisieApp(try, 0);
             switch(ret){
                 case 1:
@@ -549,10 +577,10 @@ void gameIHM(){
         y = checkCodeIHM(y);
         found = verifCodeFoundedApp(try, 0);
         tour--;
-        if((tour == 0) || (found == 4)){
-            ret=-1;
-        }
+        ret = verifEndGameApp(tour, found);
     }while(ret != -1);
+    ret = winApp(tour);
+    return(ret);
 }
 /**
  * Affiche la tentative de code du joueur.
@@ -630,18 +658,11 @@ void clearBottomClearIHM(){
     gotoxy(1,37);
 }
 
-void test(){
-    int i=111;
-    code cs, try;
+void affichScoreIHM(score s){
+    //TODO: faire les gotoxy au bon endroit pour afficher le score
+    //system("cls");
     
-    cs = defCodeIHM(1, 15, 1);
-    try = defCodeIHM(0, 0, 2);
-    
-    i=verifCodeFoundedApp(try, 0);
-    
-    
-    
-    
-    
-    //printf("\n%d\n", i);
+    printf("J1: %d\n"
+           "J2: %d", s.scoreJ1, s.scoreJ2);
+    system("pause");
 }

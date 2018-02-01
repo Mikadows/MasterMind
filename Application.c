@@ -209,3 +209,91 @@ int verifCodeFoundedApp(code try, int mode){
     }
     return(ret);
 }
+
+int verifEndGameApp(int tour, int found){
+    int ret = 0;
+    
+    if((tour == 0) || (found == 4)){
+        ret=-1;
+    }
+    return(ret);
+}
+
+int winApp(int tour){
+    int ret = 0;
+    
+    if(tour == 0){
+        ret = 1;
+    }else{
+        ret = 2;
+    }
+    return(ret);
+}
+
+void initScoreApp(){
+    score s;
+    
+    s.scoreJ1=0;
+    s.scoreJ2=0; 
+    addScoreData(s);
+}
+
+score getScoreApp(){
+    score s;
+    
+    sendScoreData(&s);
+    return(s);
+}
+
+int defScoreApp(int winner, int joueurDefCode){
+    score s;
+    int ret=0;
+    
+    sendScoreData(&s);
+    switch(joueurDefCode){
+        case 1:
+            switch(winner){
+                case 1:
+                    s.scoreJ1+=1;
+                    ret=1;
+                    break;
+                case 2:
+                    s.scoreJ2+=1;
+                    ret=1;
+                    break;
+                default:
+                    ret = 0;
+                    break;
+            }
+            break;
+        case 2:
+            switch(winner){
+                case 1:
+                    s.scoreJ1+=1;
+                    ret=1;
+                    break;
+                case 2:
+                    s.scoreJ2+=1;
+                    ret=1;
+                    break;
+                default:
+                    ret = 0;
+                    break;
+            }            
+            break;
+    }
+    addScoreData(s);
+    return(ret);
+}
+
+int endGameApp(){
+    int ptWin=0, ret=0;
+    score s;
+    
+    sendNbPtWinData(&ptWin);
+    sendScoreData(&s);
+    if((s.scoreJ1 == ptWin) || (s.scoreJ2 == ptWin)){
+        ret = -1;
+    }
+    return(ret);
+}

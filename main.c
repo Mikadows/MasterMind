@@ -19,7 +19,6 @@
  */
 int main(int argc, char** argv) {
     start();
-    //test();
     return (EXIT_SUCCESS);
 }
 
