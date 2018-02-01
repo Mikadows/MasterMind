@@ -268,11 +268,11 @@ int defScoreApp(int winner, int joueurDefCode){
             break;
         case 2:
             switch(winner){
-                case 1:
+                case 2:
                     s.scoreJ1+=1;
                     ret=1;
                     break;
-                case 2:
+                case 1:
                     s.scoreJ2+=1;
                     ret=1;
                     break;

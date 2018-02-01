@@ -450,7 +450,7 @@ code defCodeIHM(int nbAff, int nbColor, int joueurDefCode){          //int defCo
     int i=0, y=1; 
     
     switch(joueurDefCode){
-        case 1 || 2:
+        case 1:
             for(i=0; i<4; i++){
                 system("cls");
                 affMainTitleIHM(nbAff, nbColor);
@@ -467,6 +467,23 @@ code defCodeIHM(int nbAff, int nbColor, int joueurDefCode){          //int defCo
                 y++;
             }
             break;
+        case 2:
+            for(i=0; i<4; i++){
+                system("cls");
+                affMainTitleIHM(nbAff, nbColor);
+                color(JAUNEF, NOIR);
+                printf("\t\t\t\t  • Joueur%d veuillez choisir le code couleur •\n\n", joueurDefCode);
+                colorDispoIHM(nbColor, 1);
+                color(JAUNEF, NOIR);
+                printf("Couleur %d", y);
+                color(nbColor, NOIR);
+                printf(": ");
+                color(BLANC, NOIR);
+                scanf("%d", &couleurs.codeCouleur[i]);
+                viderTamponEntree();
+                y++;
+            }
+            break;            
         case 3:
             for(i=0; i<4; i++){
                 color(JAUNEF, NOIR);
