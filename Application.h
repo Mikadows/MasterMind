@@ -28,9 +28,12 @@ int verifCodeSaisieApp(code c, int entrer);
 int verifNbMancheApp(int nbManche);
 code convertCode(code c);
 int checkCodeNbPionsApp(int nb);
-int verifCodeFoundedApp(code try, int mode);
-
+int verifCodeFoundedApp(code try);
+int verifEndGameApp(int tour, int found);
+int winApp(int tour);
+void initScoreApp();
 score getScoreApp();
+int defScoreApp(int winner, int joueurDefCode);
 
 #ifdef __cplusplus
 }

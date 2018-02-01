@@ -286,7 +286,7 @@ void playVsFriendIHM(int nbAff, int nbColor){
     }while(ret != 1);
     
     do{
-        printf("av sw--> %d\n", joueurDefCode);
+        //printf("av sw--> %d\n", joueurDefCode);
         switch(joueurDefCode){
             case 1:
                 joueurDefCode=2;
@@ -295,8 +295,8 @@ void playVsFriendIHM(int nbAff, int nbColor){
                 joueurDefCode=1;
                 break;
         }
-        printf("ap sw--> %d\n", joueurDefCode);
-        system("pause");
+        //printf("ap sw--> %d\n", joueurDefCode);
+        //system("pause");
         do{ //On définis le code couleur secret à trouver.
             system("mode con lines=40 cols=120"); //Permet de configurer la taille de la console, lines=NombreDeLigne (hauteur) && cols=NombreDeColonnes (Largeur).
             system("cls");
@@ -550,21 +550,6 @@ void plateauDeJeuxIHM(int nbColor){
     printf("\t\t\t║   ║   ║   ║   ║\n"
            "\t\t\t╚═══╩═══╩═══╩═══╝\n\n");
     color(BLANC, NOIR);
-    
-    //for(y=13; y<; y=y+2)
-    /*for(x=27; x<40; x+=4){
-        gotoxy(x, y);
-        printf("■");
-        //system("pause");
-    }*/
-    /*for(x=27; x<40; x+=4){
-        gotoxy(x, 15);
-        printf("■");
-        //system("pause");
-    }*/
-    //●
-    //printf("0");
-    
     gotoxy(1,37);
 }
 /**
@@ -599,7 +584,7 @@ int gameIHM(){
     
         affichTentativeIHM(try, y);
         y = checkCodeIHM(y);
-        found = verifCodeFoundedApp(try, 0);
+        found = verifCodeFoundedApp(try);
         tour--;
         ret = verifEndGameApp(tour, found);
     }while(ret != -1);
@@ -628,7 +613,7 @@ void affichTentativeIHM(code c, int y){
  * @return y+2  <-  Retourne le prochain rang auquel écrire.
  */
 int checkCodeIHM(int y){
-    int ret = 0, nbPions=0, x=14, i=0;
+    int ret = 0, nbPions=0, x=20, i=0;
     
     do{    
         clearBottomClearIHM();
@@ -644,7 +629,7 @@ int checkCodeIHM(int y){
     for(i=0; i<nbPions; i++){
         gotoxy(x, y);
         printf("●");
-        x+=2;
+        x-=2;
     }
     
     color(BLANC, NOIR);
@@ -681,12 +666,16 @@ void clearBottomClearIHM(){
            "                                                                \n");
     gotoxy(1,37);
 }
-
+/**
+ * Affiche le score de la partie.
+ * @param s <-- Score de la partie.
+ */
 void affichScoreIHM(score s){
     //TODO: faire les gotoxy au bon endroit pour afficher le score
     //system("cls");
-    
-    printf("J1: %d\n"
-           "J2: %d", s.scoreJ1, s.scoreJ2);
-    system("pause");
+    color(JAUNEF, NOIR);
+    gotoxy(65, 9);
+    printf("%d", s.scoreJ1);
+    gotoxy(69, 9);
+    printf("%d", s.scoreJ2);
 }

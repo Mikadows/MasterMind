@@ -196,8 +196,12 @@ int checkCodeNbPionsApp(int nb){
     }
     return(ret);
 }
-
-int verifCodeFoundedApp(code try, int mode){
+/**
+ * Compte combien de couleurs de la propositions sont bonne et bien placé.
+ * @param try   <- Prend l'essaie du joueur
+ * @return      <- retourne le nombre de bon et bien placé
+ */
+int verifCodeFoundedApp(code try){
     int i = 0, ret=0;
     code codeSecret;
   
@@ -209,7 +213,12 @@ int verifCodeFoundedApp(code try, int mode){
     }
     return(ret);
 }
-
+/**
+ * Vérifie si la partie est finie
+ * @param tour  <- le nombre de 
+ * @param found
+ * @return 
+ */
 int verifEndGameApp(int tour, int found){
     int ret = 0;
     
@@ -218,7 +227,11 @@ int verifEndGameApp(int tour, int found){
     }
     return(ret);
 }
-
+/**
+ * Vérifie qui à gagné la partie.
+ * @param tour  <- nombre de tour joué
+ * @return 1 si joueur qui def le code win, ou 2 si le code est trouvé
+ */
 int winApp(int tour){
     int ret = 0;
     
@@ -229,7 +242,9 @@ int winApp(int tour){
     }
     return(ret);
 }
-
+/**
+ * Initialise le score à 0 dans la partie data
+ */
 void initScoreApp(){
     score s;
     
@@ -237,14 +252,22 @@ void initScoreApp(){
     s.scoreJ2=0; 
     addScoreData(s);
 }
-
+/**
+ * Appelle et redonne le score de la partie.
+ * @return  <-- retourne le score
+ */
 score getScoreApp(){
     score s;
     
     sendScoreData(&s);
     return(s);
 }
-
+/**
+ * Définie de score de la partie en cours. Attribue les points au bon joueur
+ * @param winner    <-- Type de victoire (code trouvé ou tour épuisé)
+ * @param joueurDefCode     <-- Joueur qui à définie de code
+ * @return  <-- 1 si bien ajouté ou 0 si erreur dans l'ajout.
+ */
 int defScoreApp(int winner, int joueurDefCode){
     score s;
     int ret=0;
@@ -285,7 +308,11 @@ int defScoreApp(int winner, int joueurDefCode){
     addScoreData(s);
     return(ret);
 }
-
+/**
+ * Vérifie si les joueurs ont atteint le nombre de point limite. Si oui,
+ * met fin à la partie
+ * @return <-- -1 si la partie est finie.
+ */
 int endGameApp(){
     int ptWin=0, ret=0;
     score s;
