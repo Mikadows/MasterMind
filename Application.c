@@ -227,6 +227,7 @@ int verifEndGameApp(int tour, int found){
     }
     return(ret);
 }
+
 /**
  * Vérifie qui à gagné la partie.
  * @param tour  <- nombre de tour joué
