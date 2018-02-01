@@ -428,7 +428,7 @@ void colorDispoIHM(int nbColor, int entrer){
             color(ROSEF, NOIR);
             printf("• 8 Rose");
             color(nbColor, NOIR);
-            printf("           ║  ║ %d ║ %d ║\n"
+            printf("           ║  ║ 0 ║ 0 ║\n"
                    "\t╚══════════════════════════════════════════════════╝  ╚═══╩═══╝\n");
             color(BLANC, NOIR);
             break;
@@ -455,7 +455,11 @@ code defCodeIHM(int nbAff, int nbColor, int joueurDefCode){          //int defCo
                 system("cls");
                 affMainTitleIHM(nbAff, nbColor);
                 color(JAUNEF, NOIR);
-                printf("\t\t\t\t  • Joueur%d veuillez choisir le code couleur •\n\n", joueurDefCode);
+                printf("\t\t\t\t  • Joueur");
+                color(ROUGE, NOIR);
+                printf(" %d", joueurDefCode);
+                color(JAUNEF, NOIR);
+                printf(" veuillez choisir le code couleur •\n\n");
                 colorDispoIHM(nbColor, 1);
                 color(JAUNEF, NOIR);
                 printf("Couleur %d", y);
@@ -472,8 +476,11 @@ code defCodeIHM(int nbAff, int nbColor, int joueurDefCode){          //int defCo
                 system("cls");
                 affMainTitleIHM(nbAff, nbColor);
                 color(JAUNEF, NOIR);
-                printf("\t\t\t\t  • Joueur%d veuillez choisir le code couleur •\n\n", joueurDefCode);
-                colorDispoIHM(nbColor, 1);
+                printf("\t\t\t\t  • Joueur");
+                color(ROUGE, NOIR);
+                printf(" %d", joueurDefCode);
+                color(JAUNEF, NOIR);
+                printf(" veuillez choisir le code couleur •\n\n");                colorDispoIHM(nbColor, 1);
                 color(JAUNEF, NOIR);
                 printf("Couleur %d", y);
                 color(nbColor, NOIR);
