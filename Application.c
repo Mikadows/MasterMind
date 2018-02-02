@@ -352,7 +352,7 @@ code defCodeIaApp(){
     for(i=0; i<4; i++){
         do{
             nb = nb_rand(3);
-            printf("%d\n", nb);
+            //printf("%d\n", nb);
         }while(nb == cs.codeCouleur[i-1]);
         cs.codeCouleur[i] = nb;
     }
@@ -362,55 +362,38 @@ code defCodeIaApp(){
 int checkCodeApp(int y, code try){
     code cs;
     int i=0, j=0, nbPions=0;
-    int tabStock[4]={0};
-    int couleurEssaiUtilisee[4] = { 0 };
-    int couleurCodeUtilisee[4] = { 0 };
     
     sendCodeSecretData(&cs);
     
-    for(i=0; i<4; i++){
-        if(try.codeCouleur[i] == cs.codeCouleur[i]){
-            couleurEssaiUtilisee[i] = 1;
-            couleurCodeUtilisee[i] = 1;
+    for(i=0; i<4; i++){         //Vérifie les pions bon et bien placés
+        if(try.codeCouleur[i] == cs.codeCouleur[i]){    //Si couleur try position i == couleur code position i
+            try.codeCouleur[i] = 0;                     //Si la couleur est bien placé on met celle du try à 0 pour ne pas la re vérifier 
             nbPions+=1;
         }
     }
-    /*for(i=0; i<4; i++){
-        if(try.codeCouleur[i] == cs.codeCouleur[i]){
-            tabStock[i] = try.codeCouleur[i];
-            nbPions+=1;
-        }
-    }*/
     affPionRouge(nbPions, y);
     gotoxy(1, 37);
     system("pause");
-    nbPions=0;  
+    nbPions=0;
     for(i=0;i<4;i++){
-        if(couleurEssaiUtilisee[i] == 0){
+        if(try.codeCouleur[i] != 0){
             for(j=0;j<4;j++){
-                if((j != i)&&(couleurCodeUtilisee[j] == 0)&&(couleurEssaiUtilisee[i]==couleurCodeUtilisee[j])){
+                if(try.codeCouleur[i] == cs.codeCouleur[j]){
                     nbPions += 1;
-                    couleurCodeUtilisee[j] = 1;
-                    couleurEssaiUtilisee[i] = 1;
                 }
             }
         }
     }
-    /*for(i=0; i<4; i++){     //TODO : A DEBUG
-        if(tabStock[i] == 0){
-            for(j=0; j<4; i++){
-                if(try.codeCouleur[i] == cs.codeCouleur[j]){
-                    nbPions+=1;
-                    printf("%d", nbPions);
-    system("pause");
-                }
-            }
-        }
-    }*/
-    ///
     printf("%d", nbPions);
     system("pause");
     affPionBlanc(nbPions, y);
     
     return(y+2);
+}
+
+code sendCodeApp(){
+    code cs;
+    
+    sendCodeSecretData(&cs);
+    return(cs);
 }

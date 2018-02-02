@@ -37,6 +37,7 @@ int defScoreApp(int winner, int joueurDefCode);
 int quiJouApp(int joueurDefCode);
 code defCodeIaApp();
 int checkCodeApp(int y, code try);
+code sendCodeApp();
 
 #ifdef __cplusplus
 }

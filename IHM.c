@@ -587,6 +587,7 @@ int gameIHM(int mode){
         }while(ret != 1);
     
         affichTentativeIHM(try, y);
+        clearBottomClearIHM();
         switch(mode){
             case 1:
                 y = checkCodeIHM(y);
@@ -615,8 +616,7 @@ void affichTentativeIHM(code c, int y){
         color(c.codeCouleur[i], NOIR);
         printf("■");    //■
         i++;
-    }
-    clearBottomClearIHM();
+    }   
 }
 /**
  * Permet de saisir et afficher le nombre de pions bon, mauvais etc ...
@@ -624,7 +624,18 @@ void affichTentativeIHM(code c, int y){
  * @return y+2  <-  Retourne le prochain rang auquel écrire.
  */
 int checkCodeIHM(int y){
-    int ret = 0, nbPions=0, x=20, i=0;
+    int ret = 0, nbPions=0, x=20, i=0, ask=0;
+    
+    color(JAUNEF, NOIR);
+    printf("Voulez vous afficher votre Code Secret ?\n"
+           "\t1 - Oui\n"
+           "\t0 - Non\n");
+    scanf("%d", &ask);
+    viderTamponEntree();
+    clearBottomClearIHM();
+    if(ask == 1){
+        affCodeSecretIHM();
+    }
     
     do{    
         clearBottomClearIHM();
@@ -687,6 +698,9 @@ void affPionBlanc(int nbPions, int y){
 void clearBottomClearIHM(){
     gotoxy(1,37);
     printf("                                                                \n"
+           "                                                                \n"
+           "                                                                \n"
+           "                                                                \n"
            "                                                                \n"
            "                                                                \n"
            "                                                                \n");
@@ -811,7 +825,11 @@ void regleJcJIHM(int nbColor, int nbAff){
     color(BLANC, NOIR);
     system("pause");
 }
-
+/**
+ * Permet de jouer contre une IA qui définie le code et corrige.
+ * @param nbAff     <-- Couleur pour l'affichage
+ * @param nbColor   <-- Nombre pour l'affichage du titre
+ */
 void playVsIaIHM(int nbAff, int nbColor){
     int ret=0, joueurDefCode=2, i=0;
     code c;
@@ -865,4 +883,21 @@ void playVsIaIHM(int nbAff, int nbColor){
         
         ret = endGameApp();
     }while(ret != -1);
+}
+/**
+ * Affiche le code secret sous le plateau.
+ */
+void affCodeSecretIHM(){
+    code cs;
+    
+    cs = sendCodeApp();
+    
+    gotoxy(1, 37);
+    printf("\t\t\t╔═══╦═══╦═══╦═══╗\n"
+           "\t\t\t║   ║   ║   ║   ║\n"
+           "\t\t\t╚═══╩═══╩═══╩═══╝\n\n");
+    affichTentativeIHM(cs, 38);
+    gotoxy(1, 40);
+    color(JAUNEF, NOIR);
+    system("pause");
 }
