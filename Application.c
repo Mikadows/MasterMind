@@ -362,23 +362,54 @@ code defCodeIaApp(){
 int checkCodeApp(int y, code try){
     code cs;
     int i=0, j=0, nbPions=0;
+    int tabStock[4]={0};
+    int couleurEssaiUtilisee[4] = { 0 };
+    int couleurCodeUtilisee[4] = { 0 };
     
     sendCodeSecretData(&cs);
     
     for(i=0; i<4; i++){
         if(try.codeCouleur[i] == cs.codeCouleur[i]){
+            couleurEssaiUtilisee[i] = 1;
+            couleurCodeUtilisee[i] = 1;
             nbPions+=1;
         }
     }
+    /*for(i=0; i<4; i++){
+        if(try.codeCouleur[i] == cs.codeCouleur[i]){
+            tabStock[i] = try.codeCouleur[i];
+            nbPions+=1;
+        }
+    }*/
     affPionRouge(nbPions, y);
-    nbPions=0;          
-    for(i=0; i<4; i++){     //TODO : A DEBUG
-        for(j=0; j<4; i++){
-            if(try.codeCouleur[j] == cs.codeCouleur[i]){
-                nbPions+=1;
+    gotoxy(1, 37);
+    system("pause");
+    nbPions=0;  
+    for(i=0;i<4;i++){
+        if(couleurEssaiUtilisee[i] == 0){
+            for(j=0;j<4;j++){
+                if((j != i)&&(couleurCodeUtilisee[j] == 0)&&(couleurEssaiUtilisee[i]==couleurCodeUtilisee[j])){
+                    nbPions += 1;
+                    couleurCodeUtilisee[j] = 1;
+                    couleurEssaiUtilisee[i] = 1;
+                }
             }
         }
     }
+    /*for(i=0; i<4; i++){     //TODO : A DEBUG
+        if(tabStock[i] == 0){
+            for(j=0; j<4; i++){
+                if(try.codeCouleur[i] == cs.codeCouleur[j]){
+                    nbPions+=1;
+                    printf("%d", nbPions);
+    system("pause");
+                }
+            }
+        }
+    }*/
+    ///
+    printf("%d", nbPions);
+    system("pause");
     affPionBlanc(nbPions, y);
     
     return(y+2);

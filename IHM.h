@@ -28,7 +28,7 @@ void affMainTitleIHM(int nbAff, int nbColor);
 void playVsFriendIHM();
 void colorDispoIHM(int nbColor, int entrer);
 code defCodeIHM(int nbAff, int nbColor, int joueurDefCode);
-int nbManchesIHM(int nbAff, int nbColor);
+int nbManchesIHM(int nbAff, int nbColor, int mode);
 void plateauDeJeuxIHM(int nbColor);
 int gameIHM(int mode);
 void affichTentativeIHM(code c, int y);

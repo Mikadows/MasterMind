@@ -271,7 +271,7 @@ void playVsFriendIHM(int nbAff, int nbColor){
     initScoreApp();
     
     do{ //On définit le nombre de manche
-        ret = verifNbMancheApp(nbManchesIHM(nbAff, nbColor));
+        ret = verifNbMancheApp(nbManchesIHM(nbAff, nbColor, 1));
         if(ret == 1){
             color(VERTF, NOIR);
             printf("\n\t\t\t\tNombre de manche bien enregistré !\n");
@@ -505,18 +505,31 @@ code defCodeIHM(int nbAff, int nbColor, int joueurDefCode){          //int defCo
  * @param nbColor   <- Permet l'affichage de la couleur du cadre.
  * @return <- retourne le nombre de manche pour être vérifié.
  */
-int nbManchesIHM(int nbAff, int nbColor){
+int nbManchesIHM(int nbAff, int nbColor, int mode){
     int manche = 0;
     
     system("cls");
     affMainTitleIHM(nbAff, nbColor);
     color(JAUNEF, NOIR);
-    printf("\t\t\t\t!! Vous avez choisis le Joueur contre Joueur !!\n\n");
-    printf("\t\t\t\tCombien de points gagnant ?\n"
-           "\t\t\t\t\t• 1\n"
-           "\t\t\t\t\t• 3\n"
-           "\t\t\t\t\t• 5\n"
-           "\t\t\t\tChoix");
+    switch(mode){
+        case 1:
+            printf("\t\t\t\t!! Vous avez choisis le Joueur contre Joueur !!\n\n");
+            printf("\t\t\t\tCombien de points gagnant ?\n"
+                   "\t\t\t\t\t• 1\n"
+                   "\t\t\t\t\t• 3\n"
+                   "\t\t\t\t\t• 5\n"
+                   "\t\t\t\tChoix");
+            break;
+        case 2:
+            printf("\t\t\t\t!! Vous avez choisis le Joueur contre IA !!\n\n");
+            printf("\t\t\t\tCombien de points gagnant ?\n"
+                   "\t\t\t\t\t• 1\n"
+                   "\t\t\t\t\t• 3\n"
+                   "\t\t\t\t\t• 5\n"
+                   "\t\t\t\tChoix");
+            break;
+    }
+
     color(nbColor, NOIR);
     printf(" : ");
     color(BLANC, NOIR);
@@ -808,7 +821,7 @@ void playVsIaIHM(int nbAff, int nbColor){
     initScoreApp();
     
     do{ //On définit le nombre de manche
-        ret = verifNbMancheApp(nbManchesIHM(nbAff, nbColor));
+        ret = verifNbMancheApp(nbManchesIHM(nbAff, nbColor, 2));
         if(ret == 1){
             color(VERTF, NOIR);
             printf("\n\t\t\t\tNombre de manche bien enregistré !\n");
