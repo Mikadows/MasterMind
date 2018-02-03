@@ -26,6 +26,12 @@ extern "C" {
     typedef struct{
         int codeCouleur[4];
     }code;
+    
+    typedef struct{
+        char nomJ1[21];
+        char nomJ2[21];
+        score sc;
+    }highscore;
 
 
 #ifdef __cplusplus

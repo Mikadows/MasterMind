@@ -40,6 +40,7 @@ void affichScoreIHM(score s);
 void regleJcJIHM(int nbColor, int nbAff);
 void playVsIaIHM(int nbAff, int nbColor);
 void affCodeSecretIHM();
+void affGGIHM();
     
 #ifdef __cplusplus
 }

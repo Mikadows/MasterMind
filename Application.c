@@ -361,36 +361,40 @@ code defCodeIaApp(){
 
 int checkCodeApp(int y, code try){
     code cs;
-    int i=0, j=0, nbPions=0;
+    int i=0, j=0, nbPions=0, tmp=0;
     
     sendCodeSecretData(&cs);
     
     for(i=0; i<4; i++){         //Vérifie les pions bon et bien placés
         if(try.codeCouleur[i] == cs.codeCouleur[i]){    //Si couleur try position i == couleur code position i
+            tmp = try.codeCouleur[i];
             try.codeCouleur[i] = 0;                     //Si la couleur est bien placé on met celle du try à 0 pour ne pas la re vérifier 
             nbPions+=1;
         }
     }
     affPionRouge(nbPions, y);
     gotoxy(1, 37);
-    system("pause");
+    //system("pause");
     nbPions=0;
     for(i=0;i<4;i++){
         if(try.codeCouleur[i] != 0){
             for(j=0;j<4;j++){
-                if(try.codeCouleur[i] == cs.codeCouleur[j]){
+                if((try.codeCouleur[i] == cs.codeCouleur[j]) && (try.codeCouleur[i] != tmp)){
                     nbPions += 1;
                 }
             }
         }
     }
-    printf("%d", nbPions);
-    system("pause");
+    //printf("%d", nbPions);
+    //system("pause");
     affPionBlanc(nbPions, y);
     
     return(y+2);
 }
-
+/**
+ * Demande et renvoie le code secret
+ * @return le code secret.
+ */
 code sendCodeApp(){
     code cs;
     

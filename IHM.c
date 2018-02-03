@@ -31,6 +31,21 @@ $$ |  $$ |$$ |      $$ |      $$   ____| $$ |$$\
 $$ |  $$ |$$ |      $$ |      \$$$$$$$\  \$$$$  |
 \__|  \__|\__|      \__|       \_______|  \____/ 
  * 
+ *  _____ _____ 
+   |  __ \  __ \
+   | |  \/ |  \/
+   | | __| | __ 
+   | |_\ \ |_\ \
+    \____/\____/
+ * 
+     _____  _____ 
+    / ____|/ ____|
+   | |  __| |  __ 
+   | | |_ | | |_ |
+   | |__| | |__| |
+    \_____|\_____|
+               
+ * 
  * 
 "\t╔══════════════════════════════════════════════════╗ \n"
 "\t║\t• 12 Rouge\t\t• 4  Marron        ║\n"
@@ -323,6 +338,9 @@ void playVsFriendIHM(int nbAff, int nbColor){
         affichScoreIHM(s);
         //Lance la partie
         ret = gameIHM(1);    //Retoune 1 si J1 win ou 2 si J2 win
+        if(ret == 2){
+            affGGIHM();
+        }
         //Ajoute un point au gagnant
         ret = defScoreApp(ret, joueurDefCode);
         switch(ret){
@@ -858,6 +876,10 @@ void playVsIaIHM(int nbAff, int nbColor){
         do{ //On définis le code couleur secret à trouver.
             system("mode con lines=40 cols=120"); //Permet de configurer la taille de la console, lines=NombreDeLigne (hauteur) && cols=NombreDeColonnes (Largeur).
             system("cls");
+            color(VERTF, NOIR);
+            printf("\n\n\n\n\n\n\n\n\t\t\t\t--------------------------------------------------------\n\n"
+                   "\t\t\t\t\tDéfinition du code secret par l'IA \n\n"
+                   "\t\t\t\t--------------------------------------------------------\n");
             ret = verifCodeSaisieApp(defCodeIaApp(), 1);
         }while(ret != 1);
 
@@ -869,6 +891,10 @@ void playVsIaIHM(int nbAff, int nbColor){
         affichScoreIHM(s);
         //Lance la partie
         ret = gameIHM(2);    //Retoune 1 si J1 win ou 2 si J2 win
+        affCodeSecretIHM();
+        if(ret == 2){   //Affiche "GG" si le code est trouvé
+            affGGIHM();
+        }
         //Ajoute un point au gagnant
         ret = defScoreApp(ret, joueurDefCode);
         switch(ret){
@@ -891,7 +917,8 @@ void affCodeSecretIHM(){
     code cs;
     
     cs = sendCodeApp();
-    
+    clearBottomClearIHM();
+    color(VERTF, NOIR);
     gotoxy(1, 37);
     printf("\t\t\t╔═══╦═══╦═══╦═══╗\n"
            "\t\t\t║   ║   ║   ║   ║\n"
@@ -900,4 +927,17 @@ void affCodeSecretIHM(){
     gotoxy(1, 40);
     color(JAUNEF, NOIR);
     system("pause");
+}
+/**
+ * Affiche un "GG" vert
+ */
+void affGGIHM(){
+    color(VERTF, NOIR);
+    printf("\t\t\t   _____  _____   \n"
+           "\t\t\t  / ____|/ ____|  \n"
+           "\t\t\t | |  __| |  __  \n"
+           "\t\t\t | | |_ | | |_ | \n"
+           "\t\t\t | |__| | |__| | \n"
+           "\t\t\t  \\_____|\\_____|\n");
+    color(BLANC, NOIR);
 }
