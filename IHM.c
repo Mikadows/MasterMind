@@ -483,6 +483,16 @@ code defCodeIHM(int nbAff, int nbColor, int joueurDefCode){          //int defCo
             }
             break;
         case 2:
+            /*i=0;
+            char c;
+            printf("Couleur : ");
+            do{
+              c = getch();
+              if((c >= '1')&&(x <= '8')){
+                  couleurs.codeCouleur[i] = c - '0';
+                  color()
+              }
+            } while(1);*/
             for(i=0; i<4; i++){
                 system("cls");
                 affMainTitleIHM(nbAff, nbColor);
@@ -620,7 +630,7 @@ int gameIHM(int mode){
         tour--;
         ret = verifEndGameApp(tour, found);
     }while(ret != -1);
-    ret = winApp(tour);
+    ret = winApp(found);
     return(ret);
 }
 /**
@@ -954,6 +964,7 @@ void askScoreIHM(int mode){
     int choix=0, ret=0;
     
     system("cls");
+    system("mode con lines=40 cols=120");
     color(VERTF, NOIR);
     printf("\n\n\n\n\n\t\t\t\t--------------------------------------------------------\n\n"
            "\t\t\t\t\t          Partie terminé ! \n\n"
@@ -971,10 +982,10 @@ void askScoreIHM(int mode){
     if(choix == 1){
         switch(mode){
             case 1:
-                ret = verifNomsJoueursApp(saisieNomsJoueursIHM());
+                ret = verifNomsJoueursApp(saisieNomsJoueursIHM(mode), mode);
                 break;
             case 2:
-                
+                ret = verifNomsJoueursApp(saisieNomsJoueursIHM(mode), mode);
                 break;
             default:
                 printf("\nErreur d'appelle de mode.\n");
@@ -998,19 +1009,25 @@ void askScoreIHM(int mode){
     }
 }
 
-highscore saisieNomsJoueursIHM(){
+highscore saisieNomsJoueursIHM(int mode){
     highscore hsc;
     
-    printf("\nNom joueur1 (20 caractères max): ");
-    fgets(hsc.nomJ1, sizeof(hsc.nomJ1), stdin);
-    hsc.nomJ1[20] = '\0';
-    printf("\nNom joueur2 (20 caractères max): ");
-    fgets(hsc.nomJ2, sizeof(hsc.nomJ2), stdin);
-    hsc.nomJ2[20] = '\0';
-    
-    //printf("\n%s\n%s\n\n", hsc.nomJ1, hsc.nomJ2);
-    
-    //system("pause");
+    switch(mode){
+        case 1:
+            printf("\nNom joueur1 (20 caractères max): ");
+            fgets(hsc.nomJ1, sizeof(hsc.nomJ1), stdin);
+            hsc.nomJ1[20] = '\0';
+            printf("\nNom joueur2 (20 caractères max): ");
+            fgets(hsc.nomJ2, sizeof(hsc.nomJ2), stdin);
+            hsc.nomJ2[20] = '\0';    
+            break;
+        case 2:
+            printf("\nVotre nom (20 caractères max):");
+            fgets(hsc.nomJ1, sizeof(hsc.nomJ1), stdin);
+            hsc.nomJ1[20] = '\0';
+            strcpy(hsc.nomJ2, "IA\0");
+            break;
+    }
     
     return(hsc);
 }

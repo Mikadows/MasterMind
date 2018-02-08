@@ -42,7 +42,7 @@ void playVsIaIHM(int nbAff, int nbColor);
 void affCodeSecretIHM();
 void affGGIHM();
 void askScoreIHM(int mode);
-highscore saisieNomsJoueursIHM();
+highscore saisieNomsJoueursIHM(int mode);
     
 #ifdef __cplusplus
 }

@@ -241,13 +241,13 @@ int verifEndGameApp(int tour, int found){
  * @param tour  <- nombre de tour joué
  * @return 1 si joueur qui def le code win, ou 2 si le code est trouvé
  */
-int winApp(int tour){
+int winApp(int found){
     int ret = 0;
     
-    if(tour == 0){
-        ret = 1;
-    }else{
+    if(found == 4){
         ret = 2;
+    }else{
+        ret = 1;
     }
     return(ret);
 }
@@ -415,7 +415,7 @@ code sendCodeApp(){
     return(cs);
 }
 
-int verifNomsJoueursApp(highscore hsc){
+int verifNomsJoueursApp(highscore hsc, int mode){
     int ret=-1, taille = 0;
     time_t temps;
     score sc;
@@ -430,8 +430,7 @@ int verifNomsJoueursApp(highscore hsc){
         hsc.nomJ1[taille-1] = '\0';
         taille = strlen(hsc.nomJ2);
         hsc.nomJ2[taille-1] = '\0';
-        ret = addHscJvJData(hsc);
-        
+        ret = addHscData(hsc, mode);
     }
     //system("pause");
     return(ret);

@@ -26,8 +26,9 @@ void sendCodeSecretData(code *cs);
 void addScoreData(score s);
 void sendScoreData(score *sc);
 void sendNbPtWinData(int *ptWin);
-int addHscJvJData(highscore hsc);
+int addHscData(highscore hsc, int mode);
 int saveData();
+int chargerData();
 static int ouvrirFichierData(FILE **f, int mode);
 static int fermerFichierData(FILE **f);
 
