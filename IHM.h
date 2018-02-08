@@ -33,14 +33,16 @@ void plateauDeJeuxIHM(int nbColor);
 int gameIHM(int mode);
 void affichTentativeIHM(code c, int y);
 int checkCodeIHM(int y);
-void affPionRouge(int nbPions, int y);
-void affPionBlanc(int nbPions, int y);
+void affPionRougeIHM(int nbPions, int y);
+void affPionBlancIHM(int nbPions, int y);
 void clearBottomClearIHM();
 void affichScoreIHM(score s);
 void regleJcJIHM(int nbColor, int nbAff);
 void playVsIaIHM(int nbAff, int nbColor);
 void affCodeSecretIHM();
 void affGGIHM();
+void askScoreIHM(int mode);
+highscore saisieNomsJoueursIHM();
     
 #ifdef __cplusplus
 }

@@ -21,16 +21,17 @@ extern "C" {
     typedef struct{
         int scoreJ1;
         int scoreJ2;
-    }score; 
+    }score;
 
     typedef struct{
         int codeCouleur[4];
     }code;
-    
+
     typedef struct{
         char nomJ1[21];
         char nomJ2[21];
         score sc;
+        char date[30];
     }highscore;
 
 

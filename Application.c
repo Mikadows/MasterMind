@@ -1,6 +1,7 @@
 /*
  * MasterMind couche Application.
  */
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
@@ -33,7 +34,14 @@ void viderTamponEntree(){
  * Lance le programme
  */
 void start(){
+    //testData();
+    if (!chargerData()){
+        affErreurLoadIHM();
+    }
     mainAffichaheIHM();
+    if(!saveData()){
+        affErreurSaveIHM();
+    }
 }
 /**
  * Génère un nombre aléatoire adapté à l'entrer
@@ -358,7 +366,12 @@ code defCodeIaApp(){
     }
     return(cs);
 }
-
+/**
+ * Vérifie 
+ * @param y
+ * @param try
+ * @return 
+ */
 int checkCodeApp(int y, code try){
     code cs;
     int i=0, j=0, nbPions=0, tmp=0;
@@ -372,7 +385,7 @@ int checkCodeApp(int y, code try){
             nbPions+=1;
         }
     }
-    affPionRouge(nbPions, y);
+    affPionRougeIHM(nbPions, y);
     gotoxy(1, 37);
     //system("pause");
     nbPions=0;
@@ -387,7 +400,7 @@ int checkCodeApp(int y, code try){
     }
     //printf("%d", nbPions);
     //system("pause");
-    affPionBlanc(nbPions, y);
+    affPionBlancIHM(nbPions, y);
     
     return(y+2);
 }
@@ -400,4 +413,26 @@ code sendCodeApp(){
     
     sendCodeSecretData(&cs);
     return(cs);
+}
+
+int verifNomsJoueursApp(highscore hsc){
+    int ret=-1, taille = 0;
+    time_t temps;
+    score sc;
+    
+    if((strlen(hsc.nomJ1)<20) && (strlen(hsc.nomJ2)<20)){
+        ret=1;
+        sendScoreData(&sc);
+        hsc.sc = sc;
+        time(&temps);
+        strcpy(hsc.date, ctime(&temps));
+        taille = strlen(hsc.nomJ1);
+        hsc.nomJ1[taille-1] = '\0';
+        taille = strlen(hsc.nomJ2);
+        hsc.nomJ2[taille-1] = '\0';
+        ret = addHscJvJData(hsc);
+        
+    }
+    //system("pause");
+    return(ret);
 }

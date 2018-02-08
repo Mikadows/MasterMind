@@ -355,6 +355,8 @@ void playVsFriendIHM(int nbAff, int nbColor){
         
         ret = endGameApp();
     }while(ret != -1);
+    askScoreIHM(1);
+    
 }
 /**
  * Affiche les couleurs disponibles pour jouer.
@@ -663,7 +665,7 @@ int checkCodeIHM(int y){
         ret = checkCodeNbPionsApp(nbPions);
         viderTamponEntree();
     }while(ret != 1);
-    affPionRouge(nbPions, y);
+    affPionRougeIHM(nbPions, y);
     color(BLANC, NOIR);
     clearBottomClearIHM();
     do{
@@ -674,7 +676,7 @@ int checkCodeIHM(int y){
         viderTamponEntree();
         clearBottomClearIHM();        
     }while(ret != 1);
-    affPionBlanc(nbPions, y);
+    affPionBlancIHM(nbPions, y);
     clearBottomClearIHM();
     
     return(y+2);
@@ -684,7 +686,7 @@ int checkCodeIHM(int y){
  * @param nbPions   <-- Nombre de pions à placer
  * @param y     <-- rang auquel écrire.
  */
-void affPionRouge(int nbPions, int y){
+void affPionRougeIHM(int nbPions, int y){
     int x=20, i=0;
     
     color(ROUGE, NOIR);
@@ -699,7 +701,7 @@ void affPionRouge(int nbPions, int y){
  * @param nbPions   <-- Nombre de pions à placer
  * @param y     <-- rang auquel écrire.
  */
-void affPionBlanc(int nbPions, int y){
+void affPionBlancIHM(int nbPions, int y){
     int x=44, i=0;
     
     color(BLANC, NOIR);
@@ -909,6 +911,8 @@ void playVsIaIHM(int nbAff, int nbColor){
         
         ret = endGameApp();
     }while(ret != -1);
+    askScoreIHM(2);
+    
 }
 /**
  * Affiche le code secret sous le plateau.
@@ -940,4 +944,81 @@ void affGGIHM(){
            "\t\t\t | |__| | |__| | \n"
            "\t\t\t  \\_____|\\_____|\n");
     color(BLANC, NOIR);
+}
+/**
+ * Demande au joueur(s) s'il souhaite sauvegarder son score
+ * @param mode  1 pour une partie en 2v2
+ *              2 pour une partie contre l'IA
+ */
+void askScoreIHM(int mode){
+    int choix=0, ret=0;
+    
+    system("cls");
+    color(VERTF, NOIR);
+    printf("\n\n\n\n\n\t\t\t\t--------------------------------------------------------\n\n"
+           "\t\t\t\t\t          Partie terminé ! \n\n"
+           "\t\t\t\t--------------------------------------------------------\n\n\n");
+    color(JAUNEF, NOIR);
+    printf("\t\t\t\tVoulez vous savegarder votre score ?\n");
+    printf("\t\t\t\t\t1     - Oui\n");
+    color(ROUGE, NOIR);
+    printf("\t\t\t\t\tAutre - Non\n");
+    color(JAUNEF, NOIR);
+    printf("\n\t\t\t\tChoix : ");
+    color(BLANC, NOIR);
+    scanf("%d", &choix);
+    viderTamponEntree();
+    if(choix == 1){
+        switch(mode){
+            case 1:
+                ret = verifNomsJoueursApp(saisieNomsJoueursIHM());
+                break;
+            case 2:
+                
+                break;
+            default:
+                printf("\nErreur d'appelle de mode.\n");
+                break;
+        }
+    }
+    switch(ret){
+        case -1:
+            printf("Erreur : Problème dans le nom (trop long)\n");
+            break;
+        case 0:
+            color(ROUGE, NOIR);
+            printf("Score insufisant pour êter enregistré !\n");
+            color(BLANC, NOIR);
+            break;
+        case 1:
+            color(VERTF, NOIR);
+            printf("High score bien enregistré !\n");
+            color(BLANC, NOIR);
+            break;
+    }
+}
+
+highscore saisieNomsJoueursIHM(){
+    highscore hsc;
+    
+    printf("\nNom joueur1 (20 caractères max): ");
+    fgets(hsc.nomJ1, sizeof(hsc.nomJ1), stdin);
+    hsc.nomJ1[20] = '\0';
+    printf("\nNom joueur2 (20 caractères max): ");
+    fgets(hsc.nomJ2, sizeof(hsc.nomJ2), stdin);
+    hsc.nomJ2[20] = '\0';
+    
+    //printf("\n%s\n%s\n\n", hsc.nomJ1, hsc.nomJ2);
+    
+    //system("pause");
+    
+    return(hsc);
+}
+
+void affErreurSaveIHM(){
+    printf("Erreur enregistrement DATA !\n");
+}
+
+void affErreurLoadIHM(){
+    printf("Erreur chargement DATA !\n");
 }

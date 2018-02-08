@@ -38,6 +38,7 @@ int quiJouApp(int joueurDefCode);
 code defCodeIaApp();
 int checkCodeApp(int y, code try);
 code sendCodeApp();
+int verifNomsJoueursApp(highscore hsc);
 
 #ifdef __cplusplus
 }

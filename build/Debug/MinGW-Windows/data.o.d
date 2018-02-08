@@ -1,5 +1,7 @@
-build/Debug/MinGW-Windows/data.o: data.c data.h code.h
+build/Debug/MinGW-Windows/data.o: data.c Application.h code.h data.h
 
-data.h:
+Application.h:
 
 code.h:
+
+data.h:

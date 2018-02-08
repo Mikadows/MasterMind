@@ -22,6 +22,15 @@ extern "C" {
     
 void ajouterCodeSecretData(code c);
 void ajouterNombreMancheData(int nbManche);
+void sendCodeSecretData(code *cs);
+void addScoreData(score s);
+void sendScoreData(score *sc);
+void sendNbPtWinData(int *ptWin);
+int addHscJvJData(highscore hsc);
+int saveData();
+static int ouvrirFichierData(FILE **f, int mode);
+static int fermerFichierData(FILE **f);
+
 
 
 #ifdef __cplusplus

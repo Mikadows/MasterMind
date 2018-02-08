@@ -19,6 +19,7 @@
  */
 int main(int argc, char** argv) {
     start();
+    //chargerData();
     return (EXIT_SUCCESS);
 }
 
