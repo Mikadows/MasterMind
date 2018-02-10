@@ -37,12 +37,19 @@ void affPionRougeIHM(int nbPions, int y);
 void affPionBlancIHM(int nbPions, int y);
 void clearBottomClearIHM();
 void affichScoreIHM(score s);
-void regleJcJIHM(int nbColor, int nbAff);
+void regleIHM(int nbColor, int nbAff, int mode);
 void playVsIaIHM(int nbAff, int nbColor);
 void affCodeSecretIHM();
 void affGGIHM();
 void askScoreIHM(int mode);
 highscore saisieNomsJoueursIHM(int mode);
+void affErreurSaveIHM();
+void affErreurLoadIHM();
+void affScoreTitle(int nbColor);
+void affScoreMenueIHM(int nbColor);
+void highScoreIHM(int nbColor);
+void affTabScoreIHM();
+void effaceTabScoreIHM(int x, int y);
     
 #ifdef __cplusplus
 }
