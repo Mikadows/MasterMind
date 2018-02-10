@@ -110,25 +110,11 @@ int verifCodeSaisieApp(code c, int entrer){
         ret=1;
         for(y = 0; y < 4; y++){
             for(i = y + 1; i < 4; i++){
-                //printf("\n y : %d - i : %d \n", y, i);
                 if(c.codeCouleur[y] == c.codeCouleur[i]){
                     ret = -1;
                 }
             }
         }
-        /*for(i=1; i<4; i++){       //ancien test de redondance.
-            if(c.codeCouleur[0] == c.codeCouleur[i]){
-                ret=-1;
-            }
-        }
-        for(i=2; i<4; i++){
-            if(c.codeCouleur[1] == c.codeCouleur[i]){
-                ret=-1;
-            }
-        }
-        if(c.codeCouleur[2] == c.codeCouleur[i]){
-            ret=-1;
-        }*/
     }
     if(ret == 1){
         ajouterCodeSecretData(c);
@@ -360,17 +346,16 @@ code defCodeIaApp(){
     for(i=0; i<4; i++){
         do{
             nb = nb_rand(3);
-            //printf("%d\n", nb);
         }while(nb == cs.codeCouleur[i-1]);
         cs.codeCouleur[i] = nb;
     }
     return(cs);
 }
 /**
- * Vérifie 
- * @param y
- * @param try
- * @return 
+ * Vérifie la tentive du joueur et la corrige en affichant les pions de couleur correspondant
+ * @param y     <-- Rang aux quelle écrire
+ * @param try   <-- Essaie à corriger
+ * @return Retourne le prochain rang aux quelle écrire
  */
 int checkCodeApp(int y, code try){
     code cs;
@@ -387,7 +372,6 @@ int checkCodeApp(int y, code try){
     }
     affPionRougeIHM(nbPions, y);
     gotoxy(1, 37);
-    //system("pause");
     nbPions=0;
     for(i=0;i<4;i++){
         if(try.codeCouleur[i] != 0){
@@ -398,8 +382,6 @@ int checkCodeApp(int y, code try){
             }
         }
     }
-    //printf("%d", nbPions);
-    //system("pause");
     affPionBlancIHM(nbPions, y);
     
     return(y+2);
@@ -414,7 +396,16 @@ code sendCodeApp(){
     sendCodeSecretData(&cs);
     return(cs);
 }
-
+/**
+ * Vérifie la taille des noms et si oui enregistre ou non le score
+ * @param hsc   <-- Structure contenant les noms à vérifier
+ * @param mode  <-- 1 ou 2 en fonction du mode de jeux
+ *                  1 pour J vs J
+ *                  2 pour J vs IA
+ * @return return -1 si il y a un problem dans les noms.
+ *                 0 si le score est enregistré.
+ *                 1 si le score à bien été enregistré.
+ */
 int verifNomsJoueursApp(highscore hsc, int mode){
     int ret=-1, taille = 0;
     time_t temps;
@@ -434,4 +425,19 @@ int verifNomsJoueursApp(highscore hsc, int mode){
     }
     //system("pause");
     return(ret);
+}
+/**
+ * Demande le score à la couche data et le renvoie
+ * @param rang  <-- Rang du score à récupéré dans la couche data 
+ * @param mode  <-- 1 ou 2 en fonction du mode de jeux
+ *                  1 pour J vs J
+ *                  2 pour J vs IA
+ * @return Retourn le score complet
+ */
+highscore sendHighScoreApp(int rang, int mode){
+    highscore hsc;
+    
+    sendHighScoreData(&hsc, rang, mode);
+    
+    return(hsc);
 }

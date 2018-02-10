@@ -14,53 +14,83 @@ static score scoreDeLaGame;
 static highscore scVsFriend[3];
 static highscore scVsIA[3];
 
+/**
+ * Ajoute le code secret à la data
+ * @param c     <-- Code secret à ajouter.
+ */
 void ajouterCodeSecretData(code c){
     codeSecret = c;
 }
-
+/**
+ * Ajoute le nombre de manche à la data
+ * @param nbManche  <-- Nombre de manche à ajouter.
+ */
 void ajouterNombreMancheData(int nbManche){
     nombreDeManche = nbManche;
 }
-
+/**
+ * Envoie le code secret 
+ * @param cs    <-- Pointeur sur le code secret à ajouter.
+ */
 void sendCodeSecretData(code *cs){
     *cs = codeSecret;
 }
-
+/**
+ * Ajoute le score de la game
+ * @param s <-- Score de la game à ajouter à ajouter.
+ */
 void addScoreData(score s){
     scoreDeLaGame = s;
 }
-
+/**
+ * Envoie le score de la game
+ * @param sc    <-- Pointeur sur le score à ajouter.
+ */
 void sendScoreData(score *sc){
     *sc = scoreDeLaGame;
 }
-
+/**
+ * Envoie le high score au rang demandé du mode de jeux demandé
+ * @param hsc       <-- Pointeur sur HighScore
+ * @param rang      <-- Rang du highscore du tableau demandé
+ * @param mode      <-- 1 ou 2 en fonction du mode de jeux
+ *                      1 pour J vs J
+ *                      2 pour J vs IA
+ */
+void sendHighScoreData(highscore *hsc, int rang, int mode){
+    switch(mode){
+        case 1:
+            *hsc = scVsFriend[rang];
+            break;
+        case 2:
+            *hsc = scVsIA[rang];
+            break;
+        case 3:
+            break;
+    }
+}
+/**
+ * Envoie le nombre de points gagnant
+ * @param ptWin     <-- pointeur sur le nombre de points gagnants
+ */
 void sendNbPtWinData(int *ptWin){
     *ptWin = nombreDeManche;
 }
-
+/**
+ * Ajoute à les highScore
+ * @param hsc   <-- HighScore à ajouter.
+ * @param mode  <-- 1 ou 2 en fonction du mode de jeux
+ *                  1 pour J vs J
+ *                  2 pour J vs IA
+ * @return 1 si bien ajouté ou 0 si non ajouté
+ */
 int addHscData(highscore hsc, int mode){
    int ret=0, i=0;
    
-   /*hsc.sc.scoreJ1 = 3;
-   hsc.sc.scoreJ2 = 2;
-   
-   scVsFriend[0].sc.scoreJ1 = 5;
-   scVsFriend[0].sc.scoreJ2 = 2;
-   scVsFriend[1].sc.scoreJ1 = 3;
-   scVsFriend[1].sc.scoreJ2 = 2;
-   scVsFriend[2].sc.scoreJ1 = 1;
-   scVsFriend[2].sc.scoreJ2 = 0;
-   
-   printf("%s : %d\n"
-          "%s : %d\n"
-          "%s", hsc.nomJ1, hsc.sc.scoreJ1, hsc.nomJ2, hsc.sc.scoreJ2, hsc.date);*/
-
-            //printf("( %d >= %d ) && ( %d >= %d )\n", hsc.sc.scoreJ1, scVsFriend[i].sc.scoreJ1, hsc.sc.scoreJ2, scVsFriend[i].sc.scoreJ2);
-            //printf("Ajouté\n");
    switch(mode){
        case 1:
             for(i=0; i<3; i++){
-                if(((hsc.sc.scoreJ1>=scVsFriend[i].sc.scoreJ1) && (hsc.sc.scoreJ2>=scVsFriend[i].sc.scoreJ2)) || ((scVsFriend[i].sc.scoreJ1 == 0) && (scVsFriend[i].sc.scoreJ2 == 0))){
+                if ((abs(hsc.sc.scoreJ1 - hsc.sc.scoreJ2)) >= (abs(scVsFriend[i].sc.scoreJ1 - scVsFriend[i].sc.scoreJ2))){
                     strcpy(scVsFriend[i].nomJ1, hsc.nomJ1);
                     strcpy(scVsFriend[i].nomJ2, hsc.nomJ2);
                     scVsFriend[i].sc.scoreJ1 = hsc.sc.scoreJ1;
@@ -73,7 +103,7 @@ int addHscData(highscore hsc, int mode){
            break;
        case 2:
             for(i=0; i<3; i++){
-                if(((hsc.sc.scoreJ1>=scVsIA[i].sc.scoreJ1) && (hsc.sc.scoreJ2>=scVsIA[i].sc.scoreJ2)) || ((scVsIA[i].sc.scoreJ1 == 0) && (scVsIA[i].sc.scoreJ2 == 0))){
+                if ((abs(hsc.sc.scoreJ1 - hsc.sc.scoreJ2)) >= (abs(scVsIA[i].sc.scoreJ1 - scVsIA[i].sc.scoreJ2))){
                     strcpy(scVsIA[i].nomJ1, hsc.nomJ1);
                     strcpy(scVsIA[i].nomJ2, hsc.nomJ2);
                     scVsIA[i].sc.scoreJ1 = hsc.sc.scoreJ1;
@@ -88,14 +118,13 @@ int addHscData(highscore hsc, int mode){
 
    return(ret);
 }
-
-
+/**
+ * Charge le fichier
+ * @return 1 si bien éxécuté, 0 si erreur
+ */
 int chargerData(){
     FILE *f;
     int ret = 0;
-    //char tabTmp[300] = {'\0'};
-    //char tabTmp2[300] = {'\0'};
-    //int i=0, y=0, ret=0;
     
     if (ouvrirFichierData(&f, 2)){
         fread(scVsFriend, sizeof(highscore), 3, f);
@@ -111,84 +140,16 @@ int chargerData(){
     if(!fermerFichierData(&f)){
         ret = 0;
     }
-    
-    /*if (ouvrirFichierData(&f, 2)){
-        while(((i=fgetc(f)) != EOF)!= NULL){
-            tabTmp[y]=i;
-            y++;
-        }
-        i=0;
-        strcpy(scVsFriend[i].nomJ1, strtok(tabTmp, ";"));
-        scVsFriend[i].sc.scoreJ1 = atoi(strtok(NULL, ";"));
-        strcpy(scVsFriend[i].nomJ2, strtok(NULL, ";"));
-        scVsFriend[i].sc.scoreJ2 = atoi(strtok(NULL, ";"));
-        strcpy(scVsFriend[i].date, strtok(NULL, ";"));
-        i+=1;
-        do{
-            strcpy(scVsFriend[i].nomJ1, strtok(NULL, ";"));
-            scVsFriend[i].sc.scoreJ1 = atoi(strtok(NULL, ";"));
-            strcpy(scVsFriend[i].nomJ2, strtok(NULL, ";"));
-            scVsFriend[i].sc.scoreJ2 = atoi(strtok(NULL, ";"));
-            strcpy(scVsFriend[i].date, strtok(NULL, ";"));
-            i+=1;
-        }while(i < 3);
-        /*for(i=0; i<3; i++){
-            printf("%s : %d\n"
-                   "%s : %d\n"
-                   "%s\n\n", scVsFriend[i].nomJ1, scVsFriend[i].sc.scoreJ1, scVsFriend[i].nomJ2, scVsFriend[i].sc.scoreJ2, scVsFriend[i].date);
-        
-            system("pause");
-        }*/
-     /*   ret = 1;
-    }
-    if(!fermerFichierData(&f)){
-        ret = 0;
-    }
-    
-    if (ouvrirFichierData(&f, 4)){
-        while(((i=fgetc(f)) != EOF)!= NULL){
-            tabTmp2[y]=i;
-            y++;
-        }
-        y=0;
-        printf("%s\n", tabTmp2);
-        system("pause");
-        printf("aaaaaaaaa\n");
-        system("pause");
-        i=0;
-        strcpy(scVsIA[i].nomJ1, strtok(tabTmp2, ";"));
-        scVsIA[i].sc.scoreJ1 = atoi(strtok(NULL, ";"));
-        strcpy(scVsIA[i].nomJ2, strtok(NULL, ";"));
-        scVsIA[i].sc.scoreJ2 = atoi(strtok(NULL, ";"));
-        strcpy(scVsIA[i].date, strtok(NULL, ";"));
-        
-        i+=1;
-        do{
-            
-        
-        printf("xxxxxxxxxa\n");
-        system("pause");
-            strcpy(scVsIA[i].nomJ1, strtok(NULL, ";"));
-            scVsIA[i].sc.scoreJ1 = atoi(strtok(NULL, ";"));
-            strcpy(scVsIA[i].nomJ2, strtok(NULL, ";"));
-            scVsIA[i].sc.scoreJ2 = atoi(strtok(NULL, ";"));
-            strcpy(scVsIA[i].date, strtok(NULL, ";"));
-            i+=1;
-        }while(i < 3);
-        ret = 1;
-    }
-    if(!fermerFichierData(&f)){
-        ret = 0;
-    }*/
-    
+
     return(ret);
 }
-
-
+/**
+ * Sauvegarde le fichier
+ * @return 1 si bien éxécuté, 0 si erreur
+ */
 int saveData(){
     FILE *f = NULL;
     int ret=0, i=0;
-    char c =';';
 
     if (ouvrirFichierData(&f, 1)) {
         fwrite(scVsFriend, sizeof(highscore), 3, f);
@@ -204,60 +165,11 @@ int saveData(){
     if(!fermerFichierData(&f)){
         ret = 0;
     }    
-    
-    
-   /* if(ouvrirFichierData(&f, 1)){
-        for(i=0; i<3; i++){
-            /*printf("%s : %d\n"
-                    "%s : %d\n"
-                    "%s", scVsFriend[i].nomJ1, scVsFriend[i].sc.scoreJ1, scVsFriend[i].nomJ2, scVsFriend[i].sc.scoreJ2, scVsFriend[i].date);
-            
-            system("pause");*/
-            
-    /*        fprintf(f, "%s", scVsFriend[i].nomJ1);
-            fprintf(f, "%c", c);
-            fprintf(f, "%d", scVsFriend[i].sc.scoreJ1);
-            fprintf(f, "%c", c);
-            fprintf(f, "%s", scVsFriend[i].nomJ2);
-            fprintf(f, "%c", c);
-            fprintf(f, "%d", scVsFriend[i].sc.scoreJ2);
-            fprintf(f, "%c", c);
-            fprintf(f, "%s", scVsFriend[i].date);
-            fprintf(f, "%c", c);
-            ret = 1;
-        }
-    }
-    if(!fermerFichierData(&f)){
-        ret = 0;
-    }
-    if (ouvrirFichierData(&f, 3)){
-        for(i=0; i<3; i++){
-            /*printf("%s : %d\n"
-                    "%s : %d\n"
-                    "%s", scVsFriend[i].nomJ1, scVsFriend[i].sc.scoreJ1, scVsFriend[i].nomJ2, scVsFriend[i].sc.scoreJ2, scVsFriend[i].date);
-            
-            system("pause");*/
-            
-  /*          fprintf(f, "%s", scVsIA[i].nomJ1);
-            fprintf(f, "%c", c);
-            fprintf(f, "%d", scVsIA[i].sc.scoreJ1);
-            fprintf(f, "%c", c);
-            fprintf(f, "%s", scVsIA[i].nomJ2);
-            fprintf(f, "%c", c);
-            fprintf(f, "%d", scVsIA[i].sc.scoreJ2);
-            fprintf(f, "%c", c);
-            fprintf(f, "%s", scVsIA[i].date);
-            fprintf(f, "%c", c);
-            ret = 1;
-        }
-    }
-    if(!fermerFichierData(&f)){
-        ret = 0;
-    }*/
-    
     return(ret);
 }
-
+/**
+ * Remplis les tableaux des HighScores pour tester
+ */
 void testData(){
     strcpy(scVsFriend[0].nomJ1, "Un truc");
     scVsFriend[0].sc.scoreJ1 = 5;
@@ -291,7 +203,16 @@ void testData(){
     scVsIA[2].sc.scoreJ2 = 0;
     strcpy(scVsIA[2].date, "naynay 08/42/2076 naynay");
 }
-
+/**
+ * Ouvre un flux vers un fichier
+ * @param f     <-- Descripteurs de fichiers
+ * @param mode  <-- Mode d'ouverture
+ *                  1 : Ouvre en mode ECRITURE le fichier J vs J
+ *                  2 : Ouvre en mode LECTURE le fichier J vs J
+ *                  3 : Ouvre en mode ECRITURE le fichier J vs IA
+ *                  4 : Ouvre en mode LECTURE le fichier J vs IA
+ * @return 1 si bien éxécuté, 0 si erreur
+ */
 static int ouvrirFichierData(FILE **f, int mode){
     int ret=0;
     
@@ -331,7 +252,11 @@ static int ouvrirFichierData(FILE **f, int mode){
     }
     return(ret);
 }
-
+/**
+ * Ferme un flux vers le fichier
+ * @param f     <-- Descripteurs de fichiers
+ * @return 1 si bien éxécuté, 0 si erreur
+ */
 static int fermerFichierData(FILE **f){
     int ret=0;
     

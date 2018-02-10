@@ -14,13 +14,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*
- * 
- */
 int main(int argc, char** argv) {
-    //testData();
-    start();
-    //chargerData();
+    start(); 
     return (EXIT_SUCCESS);
 }
 

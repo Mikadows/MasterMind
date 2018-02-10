@@ -39,6 +39,7 @@ code defCodeIaApp();
 int checkCodeApp(int y, code try);
 code sendCodeApp();
 int verifNomsJoueursApp(highscore hsc, int mode);
+highscore sendHighScoreApp(int rang, int mode);
 
 #ifdef __cplusplus
 }

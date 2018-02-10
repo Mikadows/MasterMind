@@ -1,0 +1,182 @@
+-----------------------------------------------------------------------
+
+					Ecrire dans un fichier
+
+-----------------------------------------------------------------------
+ /* if(ouvrirFichierData(&f, 1)){
+        for(i=0; i<3; i++){
+            /*printf("%s : %d\n"
+                    "%s : %d\n"
+                    "%s", scVsFriend[i].nomJ1, scVsFriend[i].sc.scoreJ1, scVsFriend[i].nomJ2, scVsFriend[i].sc.scoreJ2, scVsFriend[i].date);
+            
+            system("pause");*/     
+   /*        fprintf(f, "%s", scVsFriend[i].nomJ1);
+            fprintf(f, "%c", c);
+            fprintf(f, "%d", scVsFriend[i].sc.scoreJ1);
+            fprintf(f, "%c", c);
+            fprintf(f, "%s", scVsFriend[i].nomJ2);
+            fprintf(f, "%c", c);
+            fprintf(f, "%d", scVsFriend[i].sc.scoreJ2);
+            fprintf(f, "%c", c);
+            fprintf(f, "%s", scVsFriend[i].date);
+            fprintf(f, "%c", c);
+            ret = 1;
+        }
+    }
+    if(!fermerFichierData(&f)){
+        ret = 0;
+    }
+    if (ouvrirFichierData(&f, 3)){
+        for(i=0; i<3; i++){
+            /*printf("%s : %d\n"
+                    "%s : %d\n"
+                    "%s", scVsFriend[i].nomJ1, scVsFriend[i].sc.scoreJ1, scVsFriend[i].nomJ2, scVsFriend[i].sc.scoreJ2, scVsFriend[i].date);
+            
+            system("pause");*/
+   /*          fprintf(f, "%s", scVsIA[i].nomJ1);
+            fprintf(f, "%c", c);
+            fprintf(f, "%d", scVsIA[i].sc.scoreJ1);
+            fprintf(f, "%c", c);
+            fprintf(f, "%s", scVsIA[i].nomJ2);
+            fprintf(f, "%c", c);
+            fprintf(f, "%d", scVsIA[i].sc.scoreJ2);
+            fprintf(f, "%c", c);
+            fprintf(f, "%s", scVsIA[i].date);
+            fprintf(f, "%c", c);
+            ret = 1;
+        }
+    }
+    if(!fermerFichierData(&f)){
+        ret = 0;
+    }*/
+    
+-----------------------------------------------------------------------
+
+					Charger des données depuis un fichier
+
+-----------------------------------------------------------------------	
+    
+    /*if (ouvrirFichierData(&f, 2)){
+        while(((i=fgetc(f)) != EOF)!= NULL){
+            tabTmp[y]=i;
+            y++;
+        }
+        i=0;
+        strcpy(scVsFriend[i].nomJ1, strtok(tabTmp, ";"));
+        scVsFriend[i].sc.scoreJ1 = atoi(strtok(NULL, ";"));
+        strcpy(scVsFriend[i].nomJ2, strtok(NULL, ";"));
+        scVsFriend[i].sc.scoreJ2 = atoi(strtok(NULL, ";"));
+        strcpy(scVsFriend[i].date, strtok(NULL, ";"));
+        i+=1;
+        do{
+            strcpy(scVsFriend[i].nomJ1, strtok(NULL, ";"));
+            scVsFriend[i].sc.scoreJ1 = atoi(strtok(NULL, ";"));
+            strcpy(scVsFriend[i].nomJ2, strtok(NULL, ";"));
+            scVsFriend[i].sc.scoreJ2 = atoi(strtok(NULL, ";"));
+            strcpy(scVsFriend[i].date, strtok(NULL, ";"));
+            i+=1;
+        }while(i < 3);
+        /*for(i=0; i<3; i++){
+            printf("%s : %d\n"
+                   "%s : %d\n"
+                   "%s\n\n", scVsFriend[i].nomJ1, scVsFriend[i].sc.scoreJ1, scVsFriend[i].nomJ2, scVsFriend[i].sc.scoreJ2, scVsFriend[i].date);
+        
+            system("pause");
+        }*/
+    /*   ret = 1;
+    }
+    if(!fermerFichierData(&f)){
+        ret = 0;
+    }
+    
+    if (ouvrirFichierData(&f, 4)){
+        while(((i=fgetc(f)) != EOF)!= NULL){
+            tabTmp2[y]=i;
+            y++;
+        }
+        y=0;
+        printf("%s\n", tabTmp2);
+        system("pause");
+        printf("aaaaaaaaa\n");
+        system("pause");
+        i=0;
+        strcpy(scVsIA[i].nomJ1, strtok(tabTmp2, ";"));
+        scVsIA[i].sc.scoreJ1 = atoi(strtok(NULL, ";"));
+        strcpy(scVsIA[i].nomJ2, strtok(NULL, ";"));
+        scVsIA[i].sc.scoreJ2 = atoi(strtok(NULL, ";"));
+        strcpy(scVsIA[i].date, strtok(NULL, ";"));
+        
+        i+=1;
+        do{
+            
+        
+        //printf("xxxxxxxxxa\n");
+        system("pause");
+            strcpy(scVsIA[i].nomJ1, strtok(NULL, ";"));
+            scVsIA[i].sc.scoreJ1 = atoi(strtok(NULL, ";"));
+            strcpy(scVsIA[i].nomJ2, strtok(NULL, ";"));
+            scVsIA[i].sc.scoreJ2 = atoi(strtok(NULL, ";"));
+            strcpy(scVsIA[i].date, strtok(NULL, ";"));
+            i+=1;
+        }while(i < 3);
+        ret = 1;
+    }
+    if(!fermerFichierData(&f)){
+        ret = 0;
+    }*/
+	
+-----------------------------------------------------------------------
+
+					Ajout des HighScores
+
+-----------------------------------------------------------------------	
+
+   /*hsc.sc.scoreJ1 = 3;
+   hsc.sc.scoreJ2 = 2;
+
+   scVsFriend[0].sc.scoreJ1 = 5;
+   scVsFriend[0].sc.scoreJ2 = 2;
+   scVsFriend[1].sc.scoreJ1 = 3;
+   scVsFriend[1].sc.scoreJ2 = 2;
+   scVsFriend[2].sc.scoreJ1 = 1;
+   scVsFriend[2].sc.scoreJ2 = 0;
+   
+   printf("%s : %d\n"
+          "%s : %d\n"
+          "%s", hsc.nomJ1, hsc.sc.scoreJ1, hsc.nomJ2, hsc.sc.scoreJ2, hsc.date);*/
+
+            //printf("( %d >= %d ) && ( %d >= %d )\n", hsc.sc.scoreJ1, scVsFriend[i].sc.scoreJ1, hsc.sc.scoreJ2, scVsFriend[i].sc.scoreJ2);
+            //printf("Ajouté\n");
+			
+-----------------------------------------------------------------------			
+/*
+                if(((hsc.sc.scoreJ1>=scVsFriend[i].sc.scoreJ1) && (hsc.sc.scoreJ2>=scVsFriend[i].sc.scoreJ2)) || ((scVsFriend[i].sc.scoreJ1 == 0) && (scVsFriend[i].sc.scoreJ2 == 0))){
+                    strcpy(scVsFriend[i].nomJ1, hsc.nomJ1);
+                    strcpy(scVsFriend[i].nomJ2, hsc.nomJ2);
+                    scVsFriend[i].sc.scoreJ1 = hsc.sc.scoreJ1;
+                    scVsFriend[i].sc.scoreJ2 = hsc.sc.scoreJ2;
+                    strcpy(scVsFriend[i].date, hsc.date);
+                    i=4;
+                    ret=1;
+                }*/			
+				 //if(((hsc.sc.scoreJ1>=scVsIA[i].sc.scoreJ1) && (hsc.sc.scoreJ2>=scVsIA[i].sc.scoreJ2)) || ((scVsIA[i].sc.scoreJ1 == 0) && (scVsIA[i].sc.scoreJ2 == 0))){
+                    
+-----------------------------------------------------------------------
+
+					Comparaison des cases pour la redondance
+
+-----------------------------------------------------------------------
+			
+        /*for(i=1; i<4; i++){       //ancien test de redondance.
+            if(c.codeCouleur[0] == c.codeCouleur[i]){
+                ret=-1;
+            }
+        }
+        for(i=2; i<4; i++){
+            if(c.codeCouleur[1] == c.codeCouleur[i]){
+                ret=-1;
+            }
+        }
+        if(c.codeCouleur[2] == c.codeCouleur[i]){
+            ret=-1;
+        }*/
